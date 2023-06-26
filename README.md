@@ -68,15 +68,12 @@ PS C:\Users\login_id> python -m venv venv
 PS C:\Users\login_id> .\venv\Scripts\Activate.ps1 
 
 위와 같이 해주면, 가상 환경 준비가 끝납니다. 처음에 실행할 때 보안 관련 문의가 나오는데 Always를 선택해 줍니다. venv가 성공적으로 실행되면 프롬프트가 바뀝니다. 이 상태에서 필요한 패키지들을 설치합니다. 
-
+```
 (venv) PS C:\Users\login_id> pip install -U git+https://github.com/jianfch/stable-ts.git
-
-(venv) PS C:\Users\login_id> pip install git https://github.com/openai/whisper.git
-
+(venv) PS C:\Users\login_id> pip install git+https://github.com/openai/whisper.git
 (venv) PS C:\Users\login_id> pip install python-docx
-
 (venv) PS C:\Users\login_id> pip install pysub-parser
-
+```
 
 5.GPU버전의 pyTorch설치 
 
