@@ -101,15 +101,11 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> import stable_whisper
 >>> model = stable_whisper.load_model("small", device="cuda")
 >>> result = model.transcribe(verbose=True, word_timestamps=False, language="ko", audio="20220902_131203.mp4")
-```
 [00:12.800 --> 00:16.080]  아 아까 딱 찍었어야 되는데
 [00:19.580 --> 00:21.580]  불행랑을 치는 걸 찍었어야 되는데
 [00:30.000 --> 00:34.980]  진출하되겠지
-```
 >>> result.to_srt_vtt("20220902_131203.srt")
-```
 Saved: C:\Users\login_id\20220902_131203.srt
-```
 >>> exit()
 ```
 word_timestamps=True가 기본 값인데, 말하는 중 단어가 하이라이트 되는 기능이 있습니다. 2GB의 VRAM을 가진 그래픽카드라서 small 모델로 했는데, 몇 마디(불행랑->줄행랑, 진출하되겠지는 그냥 파도 소리가 자막화 되었네요)는 잘못 인식했네요.  8GB VRAM이라면 medium으로 하면 됩니다. 
