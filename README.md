@@ -81,7 +81,7 @@ PS C:\Users\login_id> .\venv\Scripts\Activate.ps1
 
 (venv) PS C:\Users\login_id> pip install torch==2.0.1+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
 
-잘 설치가 되었는 지 확인하기 위해 python을 입력하고 간단한 프로그램을 짭니다. __version__ 은 언더바가 2개씩 좌우로 있습니다. 
+잘 설치가 되었는 지 확인하기 위해 python을 입력하고 간단한 프로그램을 짭니다. (주의) "__version__" 은 글자의 좌우에 언더바가 2개씩 있습니다. 
 
 (venv) PS C:\Users\login_id> python
 
