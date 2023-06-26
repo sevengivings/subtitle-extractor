@@ -19,6 +19,7 @@ Whisper : General-purpose speech recognition model(https://github.com/openai/whi
 [주요 기능] 
 
 * MP4에서 자막 직접 추출 기능(stable-ts와 Whisper 중 선택 가능)
+* 무료 번역기(DeepL) 이용 시 파일 번역을 위하여 .docx 형태로 자막 텍스트만 저장(클립보드 이용 시 글자 한번에 3천자 제한) 
 * 불필요한 한 글자나 두 글자의 자막을 삭제하는 기능
 * 같은 말이 반복될 때 첫번째 자막만 사용 
 * 여러 줄의 자막을 한 줄로 합치는 기능
