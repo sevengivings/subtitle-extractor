@@ -29,7 +29,7 @@ Whisper : General-purpose speech recognition model(https://github.com/openai/whi
 [한계]
 
 - 음성 인식이 완전하지 않아서 누락되는 음성이나 잘못 인식될 수 있습니다. 프로페셔널한 용도로 사용은 권장하지 않습니다. 
-- stable-ts와 Whisper로 했을 때 자막이 다를 수 있습니다(최적화 파라미터가 많으며, stable-ts는 자막 추출 용도로 최적화한 프로그램)
+- stable-ts와 whisper 명령어로 했을 때와 이 프로그램을 사용했을 때, Whisper WebUI를 썼을 때 각각 자막의 품질이나 개수가 다를 수 있습니다(최적화 파라미터가 많아서 모두 알 수 없으며, 참고로 stable-ts는 자막 추출 용도로 최적화한 프로그램이기도 하지만 Whisper 오리지널에 비해 인식 누락이 있는 편입니다. 하지만, 없는데 추출된 귀신 소리, 무의미한 반복, 뒷부분 추출 안되는 등의 문제는 적은 편입니다.)
 
 [윈도우10/11 기준 준비 작업] 
 
