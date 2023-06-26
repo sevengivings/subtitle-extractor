@@ -27,7 +27,7 @@ Whisper : General-purpose speech recognition model(https://github.com/openai/whi
 [한계]
 
 - 음성 인식이 완전하지 않아서 누락되는 음성이나 잘못 인식될 수 있습니다. 프로페셔널한 용도로 사용은 권장하지 않습니다. 
-- stable-ts와 Whisper로 했을 때 자막이 다를 수 있습니다(이 프로그램은 기본적인 옵션만 있음).
+- stable-ts와 Whisper로 했을 때 자막이 다를 수 있습니다(최적화 파라미터가 많으며, stable-ts는 자막 추출 용도로 최적화한 프로그램)
 
 [윈도우10/11 기준 준비 작업] 
 
