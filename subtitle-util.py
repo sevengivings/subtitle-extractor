@@ -1,3 +1,5 @@
+# Utility to save as .docx and convert to .srt for external translation
+
 import docx
 import sys
 from pysubparser import parser
