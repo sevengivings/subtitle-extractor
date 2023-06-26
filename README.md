@@ -60,26 +60,26 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 파이썬은 패키지를 필요할 때마다 설치하게 되는데, 시스템에 설치된 파이썬에 그냥 설치하다보면 가끔 뭔가가 꼬이게 되고 문제가 가끔 생기는데 아주 머리가 아픈 경우가 있습니다. 물론, 이 기능만 이용하겠다하면 상관없지만 그래도 제거가 편하도록 가상의 환경을 만들어 줍니다. 아래는 사용자 디렉터리에 그냥 설치했는데 다른 드라이브나 폴더에 해도 됩니다(주의: 경로 상에 한글이 없는 곳에서 작업해주세요. 혹시 윈도우 로그인명이 한글이라면 다른 곳에 설치가 필요합니다.) 
 
-PS C:\Users\login_id > python -m venv venv 
+PS C:\Users\login_id> python -m venv venv 
 
-PS C:\Users\login_id > .\venv\Scripts\Activate.ps1 
+PS C:\Users\login_id> .\venv\Scripts\Activate.ps1 
 
 위와 같이 해주면, 가상 환경 준비가 끝납니다. 처음에 실행할 때 보안 관련 문의가 나오는데 Always를 선택해 줍니다. venv가 성공적으로 실행되면 프롬프트가 바뀝니다. 이 상태에서 필요한 패키지들을 설치합니다. 
 
-(venv) PS C:\Users\login_id > pip install -U git+https://github.com/jianfch/stable-ts.git
+(venv) PS C:\Users\login_id> pip install -U git+https://github.com/jianfch/stable-ts.git
 
-(venv) PS C:\Users\login_id > pip install git https://github.com/openai/whisper.git
+(venv) PS C:\Users\login_id> pip install git https://github.com/openai/whisper.git
 
-(venv) PS C:\Users\login_id > pip install python-docx
+(venv) PS C:\Users\login_id> pip install python-docx
 
-(venv) PS C:\Users\login_id > pip install pysub-parser
+(venv) PS C:\Users\login_id> pip install pysub-parser
 
 
 5.GPU버전의 pyTorch설치 
 
 위 과정이 끝나면 바로 쓸 수 있기는 한데, CPU버전의 pyTorch가 설치되는 것 같습니다. 이번에는 GPU버전의 토치를 설치합니다. 
 
-(venv) PS C:\Users\login_id > pip install torch==2.0.1+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
+(venv) PS C:\Users\login_id> pip install torch==2.0.1+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
 
 잘 설치가 되었는 지 확인하기 위해 python을 입력하고 간단한 프로그램을 짭니다. __version__ 은 언더바가 2개씩 좌우로 있습니다. 
 
