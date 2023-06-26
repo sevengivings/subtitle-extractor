@@ -1,4 +1,4 @@
-# Utility to save as .docx and convert to .srt for external translation
+# Simple utility to save as .docx and convert to .srt for external translation
 
 import docx
 import sys
