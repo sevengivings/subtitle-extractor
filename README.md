@@ -70,7 +70,7 @@ PS C:\Users\login_id> .\venv\Scripts\Activate.ps1
 (venv) PS C:\Users\login_id> pip install -U git+https://github.com/jianfch/stable-ts.git
 (venv) PS C:\Users\login_id> pip install git https://github.com/openai/whisper.git
 (venv) PS C:\Users\login_id> pip install python-docx
-
+(venv) PS C:\Users\login_id> pip install pysub-parser
 
 5.GPU버전의 pyTorch설치 
 
