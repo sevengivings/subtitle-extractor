@@ -36,7 +36,7 @@ def extract_audio_stable_whisper(input_file_name, output_file_name):
     result.to_srt_vtt(output_file_name + ".srt", word_level=False)
 
 # Whisper 
-def extract_audio_whisper(input_file_name, output_file_name):
+def extract_audio_whisper(input_file_name):
     # Check if the file exists.
     if not os.path.exists(input_file_name):
         raise FileNotFoundError(f"The file {input_file_name} does not exist.")
@@ -44,9 +44,9 @@ def extract_audio_whisper(input_file_name, output_file_name):
     model = whisper.load_model(whisper_model).to(whisper_device)
     temperature = tuple(np.arange(0, 1.0 + 1e-6, 0.2))  # copied from Whisper original code 
     result = model.transcribe(input_file_name, temperature=temperature, verbose=True, word_timestamps=False, language=whisper_language)
-    output_dir = os.path.dirname(output_file_name)
+    output_dir = os.path.dirname(input_file_name)
     writer = get_writer("srt", output_dir)
-    writer(result, output_file_name) 
+    writer(result, input_file_name) 
 
 # srt -> .time, .txt, .docx 
 # skip_textlength : 0 = all, 1 = igonore 1 character, 2 = ignore 2 characters
@@ -236,7 +236,7 @@ if __name__ == "__main__":
         # Check if the file exists.
         if not os.path.exists(output_file_name + ".srt"):           
             if number_selected == 2:     
-                extract_audio_whisper(input_file_name, output_file_name)
+                extract_audio_whisper(input_file_name)
             else:
                 extract_audio_stable_whisper(input_file_name, output_file_name)
         else: 
