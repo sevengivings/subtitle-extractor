@@ -4,6 +4,12 @@ A Python program to automate the video AI speech recognition and translation pro
 
 OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여 비디오 AI 음성 인식 및 번역 과정을 자동화하기 위한 파이썬 프로그램입니다. 
 
+
+[Overview] 
+
+MP4/MP3 file -> .SRT subtitle file -> filtering unnecessary subtitle(too short and meaningless repeated) -> time sync data(.time) & subtitle text data(.docx & .txt) -> user intervention for manual translation using DeepL file translation(translated .docx) or translated .txt using another method -> (optional)translated .docx to translated .txt -> join .time and .txt to .srt 
+
+
 [이용한 프로그램] 
 
 stable-ts : GitHub - jianfch/stable-ts: ASR with reliable word-level timestamps using OpenAI's Whisper(https://github.com/jianfch/stable-ts) 
@@ -123,10 +129,13 @@ word_timestamps=True가 기본 값인데, 말하는 중 단어가 하이라이�
 (venv) PS C:\Users\login_id > stable-ts --model small --device cuda --output_format srt --language ko .\20220902_131203.mp4
 ```
 .\20220902_131203.srt already exist, overwrite (y/n)? y
-Loaded Whisper small model
-100%|███████████████████████████████████████████████████████████████████████████| 36.01/36.01 [00:37<00:00,  1.04s/sec]
-Saved: C:\Users\login_id\20220902_131203.srt
 
+Loaded Whisper small model
+
+100%|███████████████████████████████████████████████████████████████████████████| 36.01/36.01 [00:37<00:00,  1.04s/sec]
+
+Saved: C:\Users\login_id\20220902_131203.srt
+```
 0
 00:00:00,520 --> 00:00:13,100
 <font color="#00ff00">아</font> 아까 딱 찍었어야 되는데
@@ -178,3 +187,4 @@ Saved: C:\Users\login_id\20220902_131203.srt
 12
 00:00:35,900 --> 00:00:36,000
 <font color="#00ff00">그게</font> 
+```
