@@ -20,7 +20,9 @@ Whisper : General-purpose speech recognition model(https://github.com/openai/whi
 ```
 (venv) PS C:\Users\login_id> python .\subtitle-extractor.py 'd:\sammple video.mp4' 1 
 ```
-뒤에 있는 숫자 1은 1글자 자막을 무시하겠다는 의미입니다. (주의)subtitle-extractor.py 코드에는 일본어->한국어를 기준으로 하드코딩되어 있습니다. 필요에 따라 소스를 변경하여 이용하세요. 
+뒤에 있는 숫자 1은 1글자 자막을 무시하겠다는 의미입니다. 
+
+(주의)subtitle-extractor.py 코드에는 일본어->한국어를 기준으로 하드코딩되어 있습니다. 필요에 따라 소스를 변경하여 이용하세요. 
 
 진행하면 아래 메시지가 나오는데, 1이나 2를 입력합니다. Whisper는 조금 느리지만 텍스트를 더 많이 추출합니다. 장단점이 있으므로 비교하며 이용하셔도 좋을 것 같습니다. 
 
