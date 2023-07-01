@@ -1,5 +1,5 @@
 # subtitle-extractor
-[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/sevengivings/subtitle-extractor/blob/master/README,en.md)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/sevengivings/subtitle-extractor/blob/master/README.en.md)
 
 A Python program to automate the video AI speech recognition and translation process. Comments and messages are in Korean.
 
