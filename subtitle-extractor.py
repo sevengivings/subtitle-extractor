@@ -257,7 +257,7 @@ if __name__ == "__main__":
         print("\n" + output_file_name + ".docx를 외부 번역프로그램에서 파일 번역한 후 다음을 진행합니다.\n")
         print("다른 폴더에 있는 경우 전체 경로를 입력하여야 하고 따옴표나 쌍따옴표는 필요 없습니다.")
         # input file name from console  
-        file_name = input(">> .docx 혹은 .txt 이름을 입력하거나 엔터를 누르세요(DeepL이용 시 기본값: " + output_file_name + target_language + ".docx): ")
+        file_name = input("\n>> .docx 혹은 .txt 이름을 입력하거나 엔터를 누르세요(DeepL이용 시 기본값: " + output_file_name + target_language + ".docx): ")
         
         # 입력이 없으면 기본 파일명 이용 
         # If input is not given, use default file name.
@@ -274,7 +274,7 @@ if __name__ == "__main__":
             # 번역된 .docx에서 .txt를 추출
             # Extract .txt from .docx
             docx_to_txt(file_name)
-            input("\n" + file_name + ".txt의 번역을 검토 및 변경하거나 계속 진행하려면 [Enter]를 누르세요.")
+            input("\n>> " + file_name + ".txt의 번역을 검토 및 변경하거나 계속 진행하려면 [Enter]를 누르세요.")
         
         text_file_name = file_name.rsplit(".", 1)[0]
         
