@@ -270,7 +270,7 @@ if __name__ == "__main__":
             # 번역된 .docx에서 .txt를 추출
             # Extract .txt from .docx
             docx_to_txt(file_name)
-            input("\n>> " + file_name + ".txt의 번역을 검토 및 변경하거나 계속 진행하려면 [Enter]를 누르세요.")
+            input("\n>> " + file_name.rsplit(".", 1)[0] + ".txt의 번역을 검토 및 변경하거나 계속 진행하려면 [Enter]를 누르세요.")
         
         text_file_name = file_name.rsplit(".", 1)[0]
         
