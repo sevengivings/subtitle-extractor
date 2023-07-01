@@ -2,12 +2,25 @@
 
 A Python program to automate the video AI speech recognition and translation process. Comments and messages are in Korean.
 
-OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여 비디오 AI 음성 인식 및 번역 과정을 자동화하기 위한 파이썬 프로그램입니다. 
-
+OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여 비디오 AI 음성 인식 및 번역 과정을 자동화하기 위한 파이썬 프로그램입니다. 다만 아직까지는 번역할 때에는 성능이 가장 좋아 보이는 DeepL을 통해 파일 번역을 수동으로 하게 되는데, .SRT 자막을 그대로 번역시키면 시각정보 부분에 문제가 생길 수 있어서 텍스트만 따로 .docx로 저장해주는 기능을 가지고 있습니다. 그러한 일련의 작업 과정을 최대한 편리하게 구성해 본 프로그램입니다.   
 
 [Overview] 
 
 MP4/MP3 file -> .SRT subtitle file -> filtering unnecessary subtitle(too short and meaningless repeated) -> time sync data(.time) & subtitle text data(.docx & .txt) -> user intervention for manual translation using DeepL file translation(translated .docx) or translated .txt using another method -> (optional)translated .docx to translated .txt -> join .time and .txt to .srt 
+
+
+[주요 기능] 
+
+* MP4에서 자막 직접 추출 기능(stable-ts와 Whisper 중 선택 가능)
+* 무료 번역기(DeepL) 이용 시 파일 번역을 위하여 .docx 형태로 자막 텍스트만 저장(클립보드 이용 시 글자 한번에 3천자 제한) 
+* 불필요한 한 글자나 두 글자의 자막을 삭제하는 기능
+* 같은 말이 반복될 때 첫번째 자막만 사용 
+* 여러 줄의 자막을 한 줄로 합치는 기능
+
+[한계]
+
+- 음성 인식이 완전하지 않아서 누락되는 음성이나 잘못 인식될 수 있습니다. 프로페셔널한 용도로 사용은 권장하지 않습니다. 
+- stable-ts와 whisper 명령어로 했을 때와 이 프로그램을 사용했을 때, Whisper WebUI를 썼을 때 각각 자막의 품질이나 개수가 다를 수 있습니다(최적화 파라미터가 많아서 모두 알 수 없으며, 참고로 stable-ts는 자막 추출 용도로 최적화한 프로그램이기도 하지만 Whisper 오리지널에 비해 인식 누락이 있는 편입니다. 하지만, 없는데 추출된 귀신 소리, 무의미한 반복, 뒷부분 추출 안되는 등의 문제는 적은 편입니다.)
 
 
 [이용한 프로그램] 
@@ -73,20 +86,8 @@ DeepL 파일 번역 시 번역이 누락된 부분을 추가 번역하고 저장
 기존 srt는 _original을 붙였고, 최종 번역된 srt는 mp4 파일명과 같게 변경했습니다.
 ```
 
-나중에 한국에도 유/무료 DeepL API가 공개된다면 이 기능도 자동화할 예정입니다. 그 외 사용법은 프로그램에서 출력하는 메시지를 잘 읽어보시기 바랍니다. 참고로, DeepL번역기에 원본 자막 파일을 그대로 번역을 시키면 시각정보 부분에 문제가 생길 수 있습니다(이 프로그램을 만들게 된 이유).  
+나중에 한국에도 유/무료 DeepL API가 공개된다면 이 기능도 자동화할 예정입니다. 그 외 사용법은 프로그램에서 출력하는 메시지를 잘 읽어보시기 바랍니다. 
 
-[주요 기능] 
-
-* MP4에서 자막 직접 추출 기능(stable-ts와 Whisper 중 선택 가능)
-* 무료 번역기(DeepL) 이용 시 파일 번역을 위하여 .docx 형태로 자막 텍스트만 저장(클립보드 이용 시 글자 한번에 3천자 제한) 
-* 불필요한 한 글자나 두 글자의 자막을 삭제하는 기능
-* 같은 말이 반복될 때 첫번째 자막만 사용 
-* 여러 줄의 자막을 한 줄로 합치는 기능
-
-[한계]
-
-- 음성 인식이 완전하지 않아서 누락되는 음성이나 잘못 인식될 수 있습니다. 프로페셔널한 용도로 사용은 권장하지 않습니다. 
-- stable-ts와 whisper 명령어로 했을 때와 이 프로그램을 사용했을 때, Whisper WebUI를 썼을 때 각각 자막의 품질이나 개수가 다를 수 있습니다(최적화 파라미터가 많아서 모두 알 수 없으며, 참고로 stable-ts는 자막 추출 용도로 최적화한 프로그램이기도 하지만 Whisper 오리지널에 비해 인식 누락이 있는 편입니다. 하지만, 없는데 추출된 귀신 소리, 무의미한 반복, 뒷부분 추출 안되는 등의 문제는 적은 편입니다.)
 
 [윈도우10/11 기준 준비 작업] 
 
