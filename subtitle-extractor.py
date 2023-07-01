@@ -248,6 +248,10 @@ if __name__ == "__main__":
         # Removed short sentences and repeated subtitles.  
         srt_split(output_file_name + ".srt", skip_textlength)
 
+        # 추출된 srt의 이름을 바꾸어 보관 
+        # Change the name of extracted srt.
+        os.rename(output_file_name + ".srt", output_file_name + "_original.srt")
+
         # 번역된 .docx 파일명을 입력 받음 
         # Get the translated file name from console.
         print("\n" + output_file_name + ".docx를 외부 번역프로그램에서 파일 번역한 후 다음을 진행합니다.\n")
@@ -270,6 +274,7 @@ if __name__ == "__main__":
             # 번역된 .docx에서 .txt를 추출
             # Extract .txt from .docx
             docx_to_txt(file_name)
+            input("\n" + file_name + ".txt의 번역을 검토 및 변경하거나 계속 진행하려면 [Enter]를 누르세요.")
         
         text_file_name = file_name.rsplit(".", 1)[0]
         
@@ -277,27 +282,29 @@ if __name__ == "__main__":
         # Create the final subtitle file with .time and .txt.
         join_srt_files(output_file_name + ".time", text_file_name + ".txt", text_file_name + ".srt")
         
-        # 추출된 srt의 이름을 바꾸어 보관 
-        # Change the name of extracted srt.
-        os.rename(output_file_name + ".srt", output_file_name + "_original.srt")
         # " ko"가 추가된 최종 srt의 파일 이름을 추출된 srt의 것으로 변경
         # Change the name of final srt to extracted srt.
         print ("\n기존 srt는 _original을 붙였고, 최종 번역된 srt는 mp4 파일명과 같게 변경했습니다.")
-        os.rename(text_file_name + ".srt", output_file_name + ".srt")
+        if (text_file_name != output_file_name):
+            os.rename(text_file_name + ".srt", output_file_name + ".srt")
         
         # 중간 처리용 파일들을 삭제 
         # Delete intermediate files.
         os.unlink (output_file_name + ".time")
         os.unlink (output_file_name + ".txt")
+
         # 번역된 .txt를 제공한 경우에는 DeepL 번역 파일인 ~ ko.docx나 변환된 ~ ko.txt가 없음
         # If translated .txt is not provided, there is no ~ ko.docx or ~ ko.txt file.
         # 사용자가 직접 번역한 .txt는 삭제하지 않음  
         # If translated .txt is provided by the user, it is not deleted.
         if not file_name.endswith(".txt"):
-            os.unlink (output_file_name + target_language + ".docx")
-            os.unlink (output_file_name + target_language + ".txt")
-        os.unlink (output_file_name + ".docx")
-        
+            try: 
+                os.unlink (output_file_name + target_language + ".docx")
+                os.unlink (output_file_name + target_language + ".txt")
+                os.unlink (output_file_name + ".docx")
+            except FileNotFoundError: 
+                pass
+
         sys.exit(0)
     else: 
         print("음성 추출할 MP3/4 파일 이름과 의미 없는 한 글자와 같이 너무 짧은 자막 제거를 위한 글자수를 넣어주세요.\n")
