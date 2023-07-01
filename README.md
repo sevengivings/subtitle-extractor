@@ -76,7 +76,7 @@ D:\sammple video.docx를 외부 번역프로그램에서 파일 번역 한 후 �
 ```
 D:\sample video ko.txt를 저장하였습니다.
 
-D:\sample video ko.txt의 번 역을 검토 및 변경하거나 계속 진행하려면 [Enter]를 누르세요.
+D:\sample video ko.txt의 번역을 검토 및 변경하거나 계속 진행하려면 [Enter]를 누르세요.
 ```
 
 DeepL 파일 번역 시 번역이 누락된 부분을 추가 번역하고 저장한 후 [Enter]를 누르면 작업이 완료됩니다.  
