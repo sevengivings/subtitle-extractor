@@ -248,10 +248,6 @@ if __name__ == "__main__":
         # Removed short sentences and repeated subtitles.  
         srt_split(output_file_name + ".srt", skip_textlength)
 
-        # 추출된 srt의 이름을 바꾸어 보관 
-        # Change the name of extracted srt.
-        os.rename(output_file_name + ".srt", output_file_name + "_original.srt")
-
         # 번역된 .docx 파일명을 입력 받음 
         # Get the translated file name from console.
         print("\n" + output_file_name + ".docx를 외부 번역프로그램에서 파일 번역한 후 다음을 진행합니다.\n")
@@ -278,6 +274,10 @@ if __name__ == "__main__":
         
         text_file_name = file_name.rsplit(".", 1)[0]
         
+        # 추출된 srt의 이름을 바꾸어 보관 
+        # Change the name of extracted srt.
+        os.rename(output_file_name + ".srt", output_file_name + "_original.srt")
+
         # 시각정보 .time과 번역된 .txt를 합쳐서 최종 자막 파일 생성 
         # Create the final subtitle file with .time and .txt.
         join_srt_files(output_file_name + ".time", text_file_name + ".txt", text_file_name + ".srt")
