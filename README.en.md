@@ -1,5 +1,5 @@
-# Multilanguage README Pattern
-[![ko](https://img.shields.io/badge/lang-ko-red.svg)]([https://github.com/sevengivings/subtitle-extractor/blob/master/README.md])
+# subtitle-extractor
+[![ko](https://img.shields.io/badge/lang-ko-red.svg)](https://github.com/sevengivings/subtitle-extractor/blob/master/README.md)
 
 A Python program to automate the video AI speech recognition and translation process. 
 
