@@ -241,3 +241,16 @@ Saved: C:\Users\login_id\20220902_131203.srt
 00:00:35,900 --> 00:00:36,000
 <font color="#00ff00">그게</font> 
 ```
+
+[단일 exe로 만들기] 
+
+지금까지는 python .\subtitle-extractor.py로 실행을 했습니다. 다소 불편하므로 exe파일로 만든 후, venv\Scripts에 복사하여 아무 드라이브나 디렉토리에서도 실행할 수 있도록 해보겠습니다. 
+
+```
+(venv) C:\Users\login_id> pip install pyinstaller
+(venv) C:\Users\login_id> pyinstaller --onefile .\subtitle-extractor.py 
+```
+
+위 결과로 나오는 C:\Users\login_id\dist\subtitle-extractor.exe를 C:\Users\login_id\venv\Scripts로 복사하면 됩니다. 이제 venv를 활성화만 시키면 어느 곳에서나 실행이 가능해집니다. 
+
+위 방식으로 만들면 약 2.4GB의 크기를 가지고 있어서 만들어지는데 오래 걸립니다. 
