@@ -97,7 +97,6 @@ def srt_split(input_file_name, skip_textlength):
                 value = subtitle_text.get(time_sync_data, "")
                 if value is None or value == "":
                     
-                    # 같은 내용의 자막이 반복되면 무시 
                     # Ignore repeated subtitles that say the same thing 
                     if last_subtitle_text ==  line.strip():
                         ignored_subtitle.add(line.strip())
@@ -107,7 +106,6 @@ def srt_split(input_file_name, skip_textlength):
                     subtitle_text[time_sync_data] = line.strip()
                     last_subtitle_text = line.strip()
                 else: 
-                    # 여러 줄의 자막은 한 줄로 만들기 
                     # If the subtitle text is repeated, combine them into one line.
                     subtitle_text[time_sync_data] = subtitle_text[time_sync_data] + ", " + line.strip() 
                 # print(time_sync_data, line)
@@ -169,14 +167,12 @@ def docx_to_txt(input_file_name):
     if not os.path.exists(input_file_name):
         raise FileNotFoundError(f"The file {input_file_name} does not exist.")
 
-    # docx 파일을 읽습니다.
     # open a docx file and read it
     docx_file = docx.Document(input_file_name)
 
     # create a new file with the same name as the input file, consider file name contains multiple '.' 
     output_file_name = input_file_name.rsplit(".", 1)[0]
 
-    # docx 파일의 내용을 txt 파일로 저장합니다.
     # save the content of docx file to a new file with the same name as the input file
     with open(output_file_name + ".txt", "w", encoding="utf-8") as f:
         for paragraph in docx_file.paragraphs:
@@ -232,8 +228,8 @@ if __name__ == "__main__":
             print("입력은 숫자 1이나 2만 유효합니다.")
             sys.exit(1)
 
-        # 음성 추출 
-        # Check if the file exists.
+        # AI speech recognition  
+        # Check if the file exists
         if not os.path.exists(output_file_name + ".srt"):           
             if number_selected == 2:     
                 extract_audio_whisper(input_file_name)
@@ -242,20 +238,16 @@ if __name__ == "__main__":
         else: 
             print("이미 자막이 있어서 추출을 생략합니다.")
 
-        # .SRT에서 텍스트와 시각정보를 분리한 후, 자막텍스트는 번역을 위해 .docx로 저장. 
-        # 짧은 문장의 제거와 반복되는 자막은 제거.     
         # Separate text and visuals in .SRT and save subtitle text as .docx for translation. 
         # Removed short sentences and repeated subtitles.  
         srt_split(output_file_name + ".srt", skip_textlength)
 
-        # 번역된 .docx 파일명을 입력 받음 
-        # Get the translated file name from console.
+        # Get the translated file name from console if not from DeepL file translation
         print("\n" + output_file_name + ".docx를 외부 번역프로그램에서 파일 번역한 후 다음을 진행합니다.\n")
         print("다른 폴더에 있는 경우 전체 경로를 입력하여야 하고 따옴표나 쌍따옴표는 필요 없습니다.")
         # input file name from console  
         file_name = input("\n>> .docx 혹은 .txt 이름을 입력하거나 엔터를 누르세요(DeepL이용 시 기본값: " + output_file_name + target_language + ".docx): ")
         
-        # 입력이 없으면 기본 파일명 이용 
         # If input is not given, use default file name.
         if len(file_name) < 1: 
             file_name = output_file_name + target_language + ".docx"
@@ -264,7 +256,6 @@ if __name__ == "__main__":
             print(file_name + "이 없어서 종료합니다. 타 프로그램에서 번역한 경우 파일 이름을 입력해주세요.")
             sys.exit(1)
         
-        # 입력 파일이 .txt라면 docx_to_txt를 생략, 대신 .srt는 .txt파일명을 따르게 됨에 유의  
         # If input file is .txt, docx_to_txt is not used, instead .srt is used to refer to .txt file name.
         if not file_name.endswith(".txt"):
             # 번역된 .docx에서 .txt를 추출
@@ -274,28 +265,22 @@ if __name__ == "__main__":
         
         text_file_name = file_name.rsplit(".", 1)[0]
         
-        # 추출된 srt의 이름을 바꾸어 보관 
-        # Change the name of extracted srt.
+        # Change the name of original .srt
         os.rename(output_file_name + ".srt", output_file_name + "_original.srt")
 
-        # 시각정보 .time과 번역된 .txt를 합쳐서 최종 자막 파일 생성 
-        # Create the final subtitle file with .time and .txt.
+        # Create the final subtitle file joining with .time and .txt.
         join_srt_files(output_file_name + ".time", text_file_name + ".txt", text_file_name + ".srt")
         
-        # " ko"가 추가된 최종 srt의 파일 이름을 추출된 srt의 것으로 변경
-        # Change the name of final srt to extracted srt.
+        # Change the name of final srt same as video file name 
         print ("\n기존 srt는 _original을 붙였고, 최종 번역된 srt는 mp4 파일명과 같게 변경했습니다.")
         if (text_file_name != output_file_name):
             os.rename(text_file_name + ".srt", output_file_name + ".srt")
         
-        # 중간 처리용 파일들을 삭제 
         # Delete intermediate files.
         os.unlink (output_file_name + ".time")
         os.unlink (output_file_name + ".txt")
 
-        # 번역된 .txt를 제공한 경우에는 DeepL 번역 파일인 ~ ko.docx나 변환된 ~ ko.txt가 없음
         # If translated .txt is not provided, there is no ~ ko.docx or ~ ko.txt file.
-        # 사용자가 직접 번역한 .txt는 삭제하지 않음  
         # If translated .txt is provided by the user, it is not deleted.
         if not file_name.endswith(".txt"):
             try: 
