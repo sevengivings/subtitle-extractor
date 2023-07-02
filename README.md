@@ -1,7 +1,7 @@
 # subtitle-extractor
 [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/sevengivings/subtitle-extractor/blob/master/README.en.md)
 
-A Python program to automate the video AI speech recognition and translation process. Comments and messages are in Korean.
+A Python program to automate the video AI speech recognition and translation process. All messages are in Korean, if you want to change to English find languages=['ko'] and replace it with language=['en'].
 
 OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여 비디오 AI 음성 인식 및 번역 과정을 자동화하기 위한 파이썬 프로그램입니다. 다만 아직까지는 번역할 때에는 성능이 가장 좋아 보이는 DeepL을 통해 파일 번역을 수동으로 하게 되는데, .SRT 자막을 그대로 번역시키면 시각정보 부분에 문제가 생길 수 있어서 텍스트만 따로 .docx로 저장해주는 기능을 가지고 있습니다. 그러한 일련의 작업 과정을 최대한 편리하게 구성해 본 프로그램입니다.   
 
@@ -32,18 +32,28 @@ Whisper : General-purpose speech recognition model(https://github.com/openai/whi
 
 [사용법]
 ```
-(venv) PS C:\Users\login_id> python .\subtitle-extractor.py 'd:\sammple video.mp4' 1 
+(venv) PS C:\Users\login_id> python .\subtitle-extractor.py --skip-textlength=1 'd:\sammple video.mp4'
 ```
-뒤에 있는 숫자 1은 1글자 자막을 무시하겠다는 의미입니다. 
+--skip-textlength 뒤에 있는 숫자 1은 1글자 자막을 무시하겠다는 의미입니다. 
 
-(주의)subtitle-extractor.py 코드에는 일본어->한국어를 기준으로 하드코딩되어 있습니다. 필요에 따라 소스를 변경하여 이용하세요. 
-
-진행하면 아래 메시지가 나오는데, 1이나 2를 입력합니다. Whisper는 조금 느리지만 텍스트를 더 많이 추출합니다. 장단점이 있으므로 비교하며 이용하셔도 좋을 것 같습니다. 
+(생략할 경우 기본값 설정) --model=medium --device=cuda --audio-language=ja --subtitle-language=kr 
 
 ```
+subtitle-extractor : AI subtitle extraction and translation helper tool
+
+model:medium
+device:cuda
+audio language:ja
+subtitle language:ko
+igonore n characters:1
+audio:D:\sample video.mp4 
+
+Python version: 3.11.3 (tags/v3.11.3:f3909b8, Apr  4 2023, 23:49:59) [MSC v.1934 64 bit (AMD64)]
 Torch version: 2.0.1+cu117
->> Stable-ts를 쓰려면 1, Whisper를 쓰려면 2를 입력하고 [Enter]를 누르세요 :
+
+[입력] 번역에 stable-ts를 쓰려면 1, Whisper는 2를 입력 후 [Enter]를 누르세요:
 ```
+위 메시지가 나오는데, 1이나 2를 입력합니다. Whisper는 조금 느리지만 텍스트를 더 많이 추출합니다. 장단점이 있으므로 비교하며 이용하셔도 좋을 것 같습니다. Whisper가 오류로 추출이 안될 때에는 stable-ts가 되는 경우가 많습니다.
 
 잠시 기다리면 음성 추출이 시작되며 시각과 자막이 표시되어 진행 상황을 파악할 수 있습니다. 
 
@@ -54,18 +64,12 @@ Torch version: 2.0.1+cu117
 추출이 완료되면 아래 메시지가 표시됩니다. 
 
 ```
-최종 글자수(개행문자포함):  1308
-
-짧아서 무시된 자막 갯수:  232
-짧아서 삭제한 자막 목록은 별도 파일로 저장합니다.
-
-반복되어 무시한 자막 갯수:  86
-반복되어 무시한 자막 목록을 별도 파일로 저장합니다.
-
-D:\sammple video.docx를 외부 번역프로그램에서 파일 번역 한 후 다음을 진행합니다.
-
-다른 폴더에 있는 경우 전체 경로를 입력하여야 하고 따옴표나 쌍따옴표는 필요 없습니다.
->> .docx 혹은 .txt 이름을 입력하거나 엔터를 누르세요(DeepL이용 시 기본값: D:\sammple video ko.docx): 
+Saved: D:\sample video.srt
+[정보] 전체 자막 길이:  462
+[정보] 짧아서 무시된 자막 종류:  24
+[정보] 반복되어 무시된 자막 종류:  7
+[작업] 직접 번역을 하기 위해 DeepL의 파일 번역 기능에 다음 파일을 사용하세요.  D:\sample video.docx
+[입력] 번역된 파일이름을 넣거나 엔터를 누르면 D:\sample video ko.docx가 사용됩니다:
 ```
 
 위 메시지가 나오면 이 때 무료 DeepL 웹/앱 번역기에서 .docx를 수동으로 파일 번역해 준 후 [Enter]를 누르면 번역된 자막이 생성됩니다. 
@@ -74,17 +78,16 @@ D:\sammple video.docx를 외부 번역프로그램에서 파일 번역 한 후 �
 
 아래 메시지가 나오면 잠시 번역 결과를 한번 더 검토할 수 있습니다. 
 ```
-D:\sample video ko.txt를 저장하였습니다.
-
-D:\sample video ko.txt의 번역을 검토 및 변경하거나 계속 진행하려면 [Enter]를 누르세요.
+D:\sample video ko.txt ko.txt 파일이 저장되었습니다.
+[작업] 계속하려면 [Enter]를 누르거나 필요시 다음 파일을 편집할 수 있습니다: D:\sample video ko.txt
 ```
 
-DeepL 파일 번역 시 번역이 누락된 부분을 추가 번역하고 저장한 후 [Enter]를 누르면 작업이 완료됩니다.  
+이 때 D:\sample video ko.txt파일을 열어서 DeepL 파일 번역 시 번역이 누락된 부분을 추가 번역하고 저장한 후 [Enter]를 누르면 작업이 완료됩니다.  
 
 ```
-새로운 자막이 생성되었습니다: D:\sample video.srt 
-
-기존 srt는 _original을 붙였고, 최종 번역된 srt는 mp4 파일명과 같게 변경했습니다.
+[정보] 새 자막이 저장되었습니다. D:\sample video ko.srt
+[정보] 최종 자막이 저장되었습니다.
+[정보] 완료하였습니다.
 ```
 
 나중에 한국에도 유/무료 DeepL API가 공개된다면 이 기능도 자동화할 예정입니다. 그 외 사용법은 프로그램에서 출력하는 메시지를 잘 읽어보시기 바랍니다. 

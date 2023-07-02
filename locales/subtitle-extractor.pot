@@ -1,0 +1,83 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-07-02 16:43+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\subtitle-extractor.py:142
+msgid "Info: The total length of subtitles is: "
+msgstr ""
+
+#: .\subtitle-extractor.py:145
+msgid "Info: The short subtitles are ignored: "
+msgstr ""
+
+#: .\subtitle-extractor.py:153
+msgid "Info: The repeated subtitles are ignored: "
+msgstr ""
+
+#: .\subtitle-extractor.py:179
+msgid ".txt file is saved"
+msgstr ""
+
+#: .\subtitle-extractor.py:186
+msgid "Error: time and text file must have the same number of lines"
+msgstr ""
+
+#: .\subtitle-extractor.py:196
+msgid "Info: new srt file is saved"
+msgstr ""
+
+#: .\subtitle-extractor.py:234
+msgid "Input transcribing method. 1 for Stable-ts, 2 for Whisper: "
+msgstr ""
+
+#: .\subtitle-extractor.py:238
+msgid "Error: Enter numbers only"
+msgstr ""
+
+#: .\subtitle-extractor.py:249
+msgid "Warning: File already exists"
+msgstr ""
+
+#: .\subtitle-extractor.py:256
+msgid ""
+"Info: You should translate .docx manullay using DeepL file translation, use "
+msgstr ""
+
+#: .\subtitle-extractor.py:258
+msgid "Input another translated file name or press [Enter] to continue...("
+msgstr ""
+
+#: .\subtitle-extractor.py:258
+msgid ".docx will be used.): "
+msgstr ""
+
+#: .\subtitle-extractor.py:265
+msgid "Error: File not found translated "
+msgstr ""
+
+#: .\subtitle-extractor.py:274
+msgid "Press [Enter] to continue... or edit "
+msgstr ""
+
+#: .\subtitle-extractor.py:285
+msgid "Info: final srt file is saved"
+msgstr ""
+
+#: .\subtitle-extractor.py:303
+msgid "Done"
+msgstr ""

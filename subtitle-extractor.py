@@ -4,7 +4,7 @@
 # - stable-ts (https://github.com/jianfch/stable-ts) (pip install stable-ts)
 # - whisper (https://github.com/openai/whisper) (pip install git+https://github.com/openai/whisper.git )
 # - torch + cuda
-# - ffmpeg (https://www.ffmpeg.org/) for stable-ts 
+# - ffmpeg.exe (https://www.ffmpeg.org/) for stable-ts and whisper 
 # - python-docx
 
 # OS: Windows 10/11 
@@ -12,38 +12,35 @@
 import os 
 import sys
 import docx 
-
+import argparse
 import torch
 import stable_whisper
 import whisper 
 from whisper.utils import get_writer
 import numpy as np
-
-whisper_model = "medium"  # small:2GB VRAM
-whisper_device = "cuda" if torch.cuda.is_available() else "cpu"
-whisper_language = "ja"
-target_language = " ko"   # for DeepL
+import gettext
+import locale 
 
 # stable-ts  
-def extract_audio_stable_whisper(input_file_name, output_file_name): 
+def extract_audio_stable_whisper(model_name, device, audio_language, input_file_name, output_file_name): 
     # Check if the file exists.
     if not os.path.exists(input_file_name):
         raise FileNotFoundError(f"The file {input_file_name} does not exist.")
 
     # Extract the audio from the video.
-    model = stable_whisper.load_model(whisper_model, device=whisper_device)
-    result = model.transcribe(verbose=True, word_timestamps=False, language=whisper_language, audio=input_file_name)
+    model = stable_whisper.load_model(model_name, device=device)
+    result = model.transcribe(verbose=True, word_timestamps=False, language=audio_language, audio=input_file_name)
     result.to_srt_vtt(output_file_name + ".srt", word_level=False)
 
 # Whisper 
-def extract_audio_whisper(input_file_name):
+def extract_audio_whisper(model_name, device, audio_language, input_file_name):
     # Check if the file exists.
     if not os.path.exists(input_file_name):
         raise FileNotFoundError(f"The file {input_file_name} does not exist.")
 
-    model = whisper.load_model(whisper_model).to(whisper_device)
+    model = whisper.load_model(model_name).to(device)
     temperature = tuple(np.arange(0, 1.0 + 1e-6, 0.2))  # copied from Whisper original code 
-    result = model.transcribe(input_file_name, temperature=temperature, verbose=True, word_timestamps=False, language=whisper_language)
+    result = model.transcribe(input_file_name, temperature=temperature, verbose=True, word_timestamps=False, language=audio_language)
     output_dir = os.path.dirname(input_file_name)
     writer = get_writer("srt", output_dir)
     writer(result, input_file_name) 
@@ -142,22 +139,20 @@ def srt_split(input_file_name, skip_textlength):
     doc.save(docx_file_name)
     
     # Print the total_length
-    print("\n최종 글자수(개행문자포함): ", text_total_length)
+    print(_("Info: The total length of subtitles is: "), text_total_length)
     
     if len(deleted_subtitle_text) > 0: 
-        print("\n짧아서 무시된 자막 갯수: ", deleted_line)
-        print("짧아서 삭제한 자막 목록은 별도 파일로 저장합니다.")
+        print(_("Info: The short subtitles are ignored: "), deleted_line)
         output_file_name = input_file_name.rsplit(".", 1)[0] 
-        with open(output_file_name + "_짧아서삭제된자막제거목록.txt", "w", encoding="utf-8") as f3:
+        with open(output_file_name + "_short_subtitle_ignored.txt", "w", encoding="utf-8") as f3:
             for text in deleted_subtitle_text:
                 f3.write(text + "\n")
                 #print(text)
 
     if len(ignored_subtitle) > 0:
-        print("\n반복되어 무시한 자막 갯수: ", ignored_line)
-        print("반복되어 무시한 자막 목록을 별도 파일로 저장합니다.")
+        print(_("Info: The repeated subtitles are ignored: "), ignored_line)
         output_file_name = input_file_name.rsplit(".", 1)[0]
-        with open(output_file_name + "_반복된자막제거목록.txt", "w", encoding="utf-8") as f4:
+        with open(output_file_name + "_repeated_subtitles_ignored.txt", "w", encoding="utf-8") as f4:
             for text in ignored_subtitle:
                 f4.write(text + "\n")
                 #print(text)
@@ -181,14 +176,14 @@ def docx_to_txt(input_file_name):
                 continue
             f.write(paragraph.text + "\n")
             
-    print (output_file_name + ".txt" + "를 저장하였습니다.")
+    print (output_file_name + _(".txt file is saved"))
 
 def join_srt_files(time_file, text_file, output_file):
     with open(time_file, 'r', encoding='utf-8') as time_input, open(text_file, 'r', encoding='utf-8') as text_input, open(output_file, 'w', encoding='utf-8') as output:
         time_data = time_input.readlines()
         text_data = text_input.readlines()
         if len(time_data) != len(text_data):
-            print("오류: 자막 갯수와 시각 동기 자료 갯수가 다릅니다.")
+            print(_("Error: time and text file must have the same number of lines"))
             return
         for i in range(len(time_data)):
             time_entry = time_data[i].strip()
@@ -198,101 +193,113 @@ def join_srt_files(time_file, text_file, output_file):
             output.write(f"{text_entry}\n")
             output.write("\n")
     
-    print("\n새로운 자막이 생성되었습니다: ", output_file)
+    print(_("Info: new srt file is saved"), output_file)
 
 if __name__ == "__main__":
-    # pass file name as argument 
-    if len(sys.argv) > 2:
-        input_file_name = sys.argv[1]
-        try: 
-            skip_textlength = int(sys.argv[2]) 
-        except  ValueError:
-            print("두번째 인자는 0,1,2,3등 무시할 자막의 문자 길이 지정을 위한 숫자를 넣어주세요.\n")
-            print("Usage: python .\subtitle-extractor.py '.\sample file.mp4' 1 \n")
-            sys.exit(1)
-
-        print("Torch version: " + torch.__version__)
-
-        if skip_textlength < 0:
-            skip_textlength = 0 
-
-        # create a new file with the same name as the input file, consider file name contains multiple '.' 
-        output_file_name = input_file_name.rsplit(".", 1)[0]
-
-        # to determine transcribing method, get user input 
-        # print ("Input the number of the transcribing method you want to use: 1 for Stable-ts, 2 for Whisper") 
-        number_selected = input(">> Stable-ts를 쓰려면 1, Whisper를 쓰려면 2를 입력하고 [Enter]를 누르세요 : ")
-        try: 
-            number_selected = int(number_selected)
-        except ValueError:
-            print("입력은 숫자 1이나 2만 유효합니다.")
-            sys.exit(1)
-
-        # AI speech recognition  
-        # Check if the file exists
-        if not os.path.exists(output_file_name + ".srt"):           
-            if number_selected == 2:     
-                extract_audio_whisper(input_file_name)
-            else:
-                extract_audio_stable_whisper(input_file_name, output_file_name)
-        else: 
-            print("이미 자막이 있어서 추출을 생략합니다.")
-
-        # Separate text and visuals in .SRT and save subtitle text as .docx for translation. 
-        # Removed short sentences and repeated subtitles.  
-        srt_split(output_file_name + ".srt", skip_textlength)
-
-        # Get the translated file name from console if not from DeepL file translation
-        print("\n" + output_file_name + ".docx를 외부 번역프로그램에서 파일 번역한 후 다음을 진행합니다.\n")
-        print("다른 폴더에 있는 경우 전체 경로를 입력하여야 하고 따옴표나 쌍따옴표는 필요 없습니다.")
-        # input file name from console  
-        file_name = input("\n>> .docx 혹은 .txt 이름을 입력하거나 엔터를 누르세요(DeepL이용 시 기본값: " + output_file_name + target_language + ".docx): ")
+    appname = 'subtitle-extractor'
+    localedir = './locales'
         
-        # If input is not given, use default file name.
-        if len(file_name) < 1: 
-            file_name = output_file_name + target_language + ".docx"
+    en_i18n = gettext.translation(appname, localedir, fallback=True, languages=['ko'])  # All messages are in Korean
+    en_i18n.install()
 
-        if not os.path.exists(file_name): 
-            print(file_name + "이 없어서 종료합니다. 타 프로그램에서 번역한 경우 파일 이름을 입력해주세요.")
-            sys.exit(1)
-        
-        # If input file is .txt, docx_to_txt is not used, instead .srt is used to refer to .txt file name.
-        if not file_name.endswith(".txt"):
-            # 번역된 .docx에서 .txt를 추출
-            # Extract .txt from .docx
-            docx_to_txt(file_name)
-            input("\n>> " + file_name.rsplit(".", 1)[0] + ".txt의 번역을 검토 및 변경하거나 계속 진행하려면 [Enter]를 누르세요.")
-        
-        text_file_name = file_name.rsplit(".", 1)[0]
-        
-        # Change the name of original .srt
-        os.rename(output_file_name + ".srt", output_file_name + "_original.srt")
+    parser= argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument("audio", type=str, help="audio/video file(s) to transcribe")
+    parser.add_argument("--model", default="medium", help="name of the stable-ts or Whisper model to use")
+    parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu", help="device to use for PyTorch inference")
+    parser.add_argument("--audio-language", type=str, default="ja", help="language spoken in the audio, specify None to perform language detection")
+    parser.add_argument("--subtitle-language", type=str, default="ko", help="subtitle target language need only if you plan to use DeepL file translation manually")
+    parser.add_argument("--skip-textlength", type=int, default=1, help="skip short text in the subtitles, useful for removing meaningless words")
+    
+    args = parser.parse_args().__dict__
+    model_name: str = args.pop("model")
+    device: str = args.pop("device")
+    audio_language: str = args.pop("audio_language")
+    subtitle_language: str = args.pop("subtitle_language")
+    input_file_name: str = args.pop("audio")
+    skip_textlength: int = args.pop("skip_textlength")
 
-        # Create the final subtitle file joining with .time and .txt.
-        join_srt_files(output_file_name + ".time", text_file_name + ".txt", text_file_name + ".srt")
-        
-        # Change the name of final srt same as video file name 
-        print ("\n기존 srt는 _original을 붙였고, 최종 번역된 srt는 mp4 파일명과 같게 변경했습니다.")
-        if (text_file_name != output_file_name):
-            os.rename(text_file_name + ".srt", output_file_name + ".srt")
-        
-        # Delete intermediate files.
-        os.unlink (output_file_name + ".time")
-        os.unlink (output_file_name + ".txt")
+    print("subtitle-extractor : AI subtitle extraction and translation helper tool")
+    print("\nmodel:" + model_name + "\ndevice:" + device  + "\naudio language:" + audio_language + "\nsubtitle language:" + subtitle_language  + "\nigonore n characters:" + str(skip_textlength) + "\naudio:" + input_file_name)
+    print("\nPython version: " + sys.version)
+    print("Torch version: " + torch.__version__ + "\n")
 
-        # If translated .txt is not provided, there is no ~ ko.docx or ~ ko.txt file.
-        # If translated .txt is provided by the user, it is not deleted.
-        if not file_name.endswith(".txt"):
-            try: 
-                os.unlink (output_file_name + target_language + ".docx")
-                os.unlink (output_file_name + target_language + ".txt")
-                os.unlink (output_file_name + ".docx")
-            except FileNotFoundError: 
-                pass
+    if skip_textlength < 0:
+        skip_textlength = 0 
 
-        sys.exit(0)
-    else: 
-        print("음성 추출할 MP3/4 파일 이름과 의미 없는 한 글자와 같이 너무 짧은 자막 제거를 위한 글자수를 넣어주세요.\n")
-        print("팁: 파일 이름 입력 시에 앞쪽 글자 몇 개 입력 후에 [Tab]키를 누르면 파일 이름이 자동 완성됩니다.\n")
-        print("Usage: python .\subtitle-extractor.py 'E:\video\sample video file.mp4' 1 \n")
+    # create a new file with the same name as the input file, consider file name contains multiple '.' 
+    output_file_name = input_file_name.rsplit(".", 1)[0]
+
+    # to determine transcribing method, get user input 
+    # print ("Input the number of the transcribing method you want to use: 1 for Stable-ts, 2 for Whisper") 
+    number_selected = input(_("Input transcribing method. 1 for Stable-ts, 2 for Whisper: "))
+    try: 
+        number_selected = int(number_selected)
+    except ValueError:
+        print(_("Error: Enter numbers only"))
         sys.exit(1)
+
+    # AI speech recognition  
+    # Check if the file exists
+    if not os.path.exists(output_file_name + ".srt"):           
+        if number_selected == 2:     
+            extract_audio_whisper(model_name, device, audio_language, input_file_name)
+        else:
+            extract_audio_stable_whisper(model_name, device, audio_language, input_file_name, output_file_name)
+    else: 
+        print(_("Warning: File already exists"))
+
+    # Separate text and visuals in .SRT and save subtitle text as .docx for translation. 
+    # Removed short sentences and repeated subtitles.  
+    srt_split(output_file_name + ".srt", skip_textlength)
+
+    # Get the translated file name from console if not from DeepL file translation
+    print(_("Info: You should translate .docx manullay using DeepL file translation, use "), output_file_name + ".docx")
+    # input file name from console  
+    file_name = input(_("Input another translated file name or press [Enter] to continue...(") + output_file_name + " " + subtitle_language + _(".docx will be used.): "))
+    
+    # If input is not given, use default file name.
+    if len(file_name) < 1: 
+        file_name = output_file_name + " " + subtitle_language + ".docx"
+
+    if not os.path.exists(file_name): 
+        print(_("Error: File not found translated "), file_name)
+        sys.exit(1)
+    
+    # If input file is .txt, docx_to_txt is not used, instead .srt is used to refer to .txt file name.
+    if not file_name.endswith(".txt"):
+        # 번역된 .docx에서 .txt를 추출
+        # Extract .txt from .docx
+        docx_to_txt(file_name)
+        # "\n>> " + file_name.rsplit(".", 1)[0] + 
+        input(_("Press [Enter] to continue... or edit ") + file_name.rsplit(".", 1)[0] + ".txt ")
+    
+    text_file_name = file_name.rsplit(".", 1)[0]
+    
+    # Change the name of original .srt
+    os.rename(output_file_name + ".srt", output_file_name + "_original.srt")
+
+    # Create the final subtitle file joining with .time and .txt.
+    join_srt_files(output_file_name + ".time", text_file_name + ".txt", text_file_name + ".srt")
+    
+    # Change the name of final srt same as video file name 
+    print (_("Info: final srt file is saved"))
+    if (text_file_name != output_file_name):
+        os.rename(text_file_name + ".srt", output_file_name + ".srt")
+    
+    # Delete intermediate files.
+    os.unlink (output_file_name + ".time")
+    os.unlink (output_file_name + ".txt")
+
+    # If translated .txt is not provided, there is no ~ ko.docx or ~ ko.txt file.
+    # If translated .txt is provided by the user, it is not deleted.
+    if not file_name.endswith(".txt"):
+        try: 
+            os.unlink (output_file_name + " " + subtitle_language + ".docx")
+            os.unlink (output_file_name + " " + subtitle_language + ".txt")
+            os.unlink (output_file_name + ".docx")
+        except FileNotFoundError: 
+            pass
+    
+    print(_("Done"))
+
+    sys.exit(0)
