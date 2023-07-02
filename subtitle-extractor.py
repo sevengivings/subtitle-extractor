@@ -267,7 +267,6 @@ if __name__ == "__main__":
     
     # If input file is .txt, docx_to_txt is not used, instead .srt is used to refer to .txt file name.
     if not file_name.endswith(".txt"):
-        # 번역된 .docx에서 .txt를 추출
         # Extract .txt from .docx
         docx_to_txt(file_name)
         # "\n>> " + file_name.rsplit(".", 1)[0] + 
