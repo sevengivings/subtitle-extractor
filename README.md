@@ -245,6 +245,17 @@ Saved: C:\Users\login_id\20220902_131203.srt
 <font color="#00ff00">그게</font> 
 ```
 
+8.subtitle-extractor.py 받아서 이용하기  
+
+만약 git를 설치해 두었다면 아래와 같이 받으면 됩니다. 그렇지 않다면 https://github.com/sevengivings/subtitle-extractor에 접속해서 우측에 "<> CODE"라는 명령버튼이 보입니다. 버튼을 누르면 Download ZIP 메뉴를 통해 압축 파일로 받을 수 있고, 적당한 곳에 압축 해제한 후 이용할 수 있습니다.
+
+```
+(venv) C:\Users\login_id> git clone https://github.com/sevengivings/subtitle-extractor
+```
+
+(주의) 만약 한글로 된 안내 메시지를 보려면 압축 파일의 locales 디렉토리도 필요합니다. 
+
+
 [단일 exe로 만들기] 
 
 지금까지는 python .\subtitle-extractor.py로 실행을 했습니다. 다소 불편하므로 exe파일로 만든 후, venv\Scripts에 복사하여 아무 드라이브나 디렉토리에서도 실행할 수 있도록 해보겠습니다. 
