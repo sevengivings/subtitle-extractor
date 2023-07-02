@@ -3,7 +3,7 @@
 
 A Python program to automate the video AI speech recognition and translation process. 
 
-(Caution!) Comments and messages are in Korean.
+(Caution!) Default messages are in Korean. If you want to change to English, find languages=['ko'] and replace it with language=['en'].
 
 [Overview]
 
