@@ -78,7 +78,7 @@ Saved: D:\sample video.srt
 
 아래 메시지가 나오면 잠시 번역 결과를 한번 더 검토할 수 있습니다. 
 ```
-D:\sample video ko.txt ko.txt 파일이 저장되었습니다.
+D:\sample video ko.txt파일이 저장되었습니다.
 [작업] 계속하려면 [Enter]를 누르거나 필요시 다음 파일을 편집할 수 있습니다: D:\sample video ko.txt
 ```
 
