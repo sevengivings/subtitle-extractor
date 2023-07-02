@@ -241,10 +241,13 @@ if __name__ == "__main__":
     # AI speech recognition  
     # Check if the file exists
     if not os.path.exists(output_file_name + ".srt"):           
-        if number_selected == 2:     
-            extract_audio_whisper(model_name, device, audio_language, input_file_name)
-        else:
+        if number_selected == 1:     
             extract_audio_stable_whisper(model_name, device, audio_language, input_file_name, output_file_name)
+        elif number_selected == 2:
+            extract_audio_whisper(model_name, device, audio_language, input_file_name)
+        else: 
+            print(_("Error: Enter numbers only")) 
+            sys.exit(1)
     else: 
         print(_("Warning: File already exists"))
 
