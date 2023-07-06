@@ -3,8 +3,6 @@
 
 A Python program to automate the video AI speech recognition and translation process. 
 
-(Caution!) Default messages are in Korean. If you want to change to English, find languages=['ko'] and replace it with language=['en'].
-
 [Overview]
 
 MP4/MP3 file -> .SRT subtitle file -> filtering unnecessary subtitle(too short and meaningless repeated) -> time sync data(.time) & subtitle text data(.docx & .txt) -> user intervention for manual translation using DeepL file translation(translated .docx) or translated .txt using another method -> (optional)translated .docx to translated .txt -> join .time and .txt to .srt
