@@ -3,7 +3,16 @@
 #
 
 # Needs Google Cloud Account, up to 500,000 characters free translation 
+# You can choose api_key or ADC for credential
 
+import os 
+import sys
+import requests 
+
+split_size = 1000
+target_language = "ko"
+
+# https://cloud.google.com/translate/docs/basic/translating-text?hl=ko#translate_translate_text-python
 # This script is used to translate subtitles using Google Cloud Translate service 
 # Google ADC(Application Default Credentials) is used to authenticate the request.
 # https://cloud.google.com/docs/authentication/provide-credentials-adc#how-to 
@@ -12,15 +21,7 @@
 # https://cloud.google.com/docs/authentication/provide-credentials-adc#local-dev 
 # Install and initialize the gcloud CLI.
 # Create credential file: gcloud auth application-default login
-
-import os 
-import sys
-
-split_size = 1000
-target_language = "ko"
-
-# https://cloud.google.com/translate/docs/basic/translating-text?hl=ko#translate_translate_text-python
-def translate_text(target: str, text: str) -> dict:
+def translate_text_adc(target: str, text: str) -> dict:
     """Translates text into the target language.
 
     Target must be an ISO 639-1 language code.
@@ -49,6 +50,28 @@ def translate_text(target: str, text: str) -> dict:
     #print("Detected source language: {}".format(result["detectedSourceLanguage"]))
 
     return result 
+
+# PowerShell 
+# Set-Item -Path env:GOOGLE_API_KEY -Value "your_api_key"
+def translate_text_apikey(target, text):
+    api_key = os.environ['GOOGLE_API_KEY'] 
+    endpoint = 'https://translation.googleapis.com/language/translate/v2'
+
+    text = text
+    target_language = target
+
+    params = {
+        'key': api_key,
+        'q': text,
+        'target': target_language
+    }
+
+    response = requests.post(endpoint, params=params)
+    data = response.json()
+    translated_texts = [item['translatedText'] for item in data['data']['translations']]
+    # print(translated_texts)
+    
+    return translated_texts
 
 # removes unnecessary short and repeated characters from the subtitle text and translate using Google Cloud Translate 
 def translate_file(input_file_name, skip_textlength):
@@ -130,8 +153,13 @@ def translate_file(input_file_name, skip_textlength):
     # translate each splitted list 
     text_translated_list_all = [] 
     for split_list in split_lists:
-        result = translate_text(target_language, split_list)
-        translated_list = [res['translatedText'] for res in result]
+        if os.environ['GOOGLE_API_KEY'] != None: 
+            result = translate_text_apikey(target_language, split_list)
+            translated_list = result 
+        else:
+            result = translate_text_adc(target_language, split_list)
+            translated_list = [res['translatedText'] for res in result]
+        
         text_translated_list_all.append(translated_list)
         print(f"[Info]{len(split_list)} sentences translated") 
     
