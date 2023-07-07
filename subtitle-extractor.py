@@ -40,7 +40,7 @@ def extract_audio_whisper(model_name, device, audio_language, input_file_name):
 
     model = whisper.load_model(model_name).to(device)
     temperature = tuple(np.arange(0, 1.0 + 1e-6, 0.2))  # copied from Whisper original code 
-    result = model.transcribe(input_file_name, temperature=temperature, verbose=True, word_timestamps=False, language=audio_language)
+    result = model.transcribe(input_file_name, temperature=temperature, verbose=True, word_timestamps=False, condition_on_previous_text=False, language=audio_language)
     output_dir = os.path.dirname(input_file_name)
     writer = get_writer("srt", output_dir)
     writer(result, input_file_name) 
