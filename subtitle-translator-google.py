@@ -17,6 +17,7 @@ import os
 import sys
 
 split_size = 1000
+target_language = "ko"
 
 # https://cloud.google.com/translate/docs/basic/translating-text?hl=ko#translate_translate_text-python
 def translate_text(target: str, text: str) -> dict:
@@ -129,7 +130,7 @@ def translate_file(input_file_name, skip_textlength):
     # translate each splitted list 
     text_translated_list_all = [] 
     for split_list in split_lists:
-        result = translate_text("ko", split_list)
+        result = translate_text(target_language, split_list)
         translated_list = [res['translatedText'] for res in result]
         text_translated_list_all.append(translated_list)
         print(f"[Info]{len(split_list)} sentences translated") 
