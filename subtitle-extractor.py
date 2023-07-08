@@ -29,7 +29,7 @@ def extract_audio_stable_whisper(model_name, device, audio_language, input_file_
 
     # Extract the audio from the video.
     model = stable_whisper.load_model(model_name, device=device)
-    result = model.transcribe(verbose=True, word_timestamps=False, language=audio_language, audio=input_file_name)
+    result = model.transcribe(verbose=True, word_timestamps=False, condition_on_previous_text=False,language=audio_language, audio=input_file_name)
     result.to_srt_vtt(output_file_name + ".srt", word_level=False)
 
 # Whisper 
@@ -204,7 +204,7 @@ if __name__ == "__main__":
 
     parser= argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("audio", type=str, help="audio/video file(s) to transcribe")
-    parser.add_argument("--model", default="medium", help="name of the stable-ts or Whisper model to use")
+    parser.add_argument("--model", default="medium", help="tiny, base, small, medium, large model to use")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu", help="device to use for PyTorch inference")
     parser.add_argument("--audio_language", type=str, default="ja", help="language spoken in the audio, specify None to perform language detection")
     parser.add_argument("--subtitle_language", type=str, default="ko", help="subtitle target language need only if you plan to use DeepL file translation manually")
