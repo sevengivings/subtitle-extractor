@@ -206,9 +206,9 @@ if __name__ == "__main__":
     parser.add_argument("audio", type=str, help="audio/video file(s) to transcribe")
     parser.add_argument("--model", default="medium", help="name of the stable-ts or Whisper model to use")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu", help="device to use for PyTorch inference")
-    parser.add_argument("--audio-language", type=str, default="ja", help="language spoken in the audio, specify None to perform language detection")
-    parser.add_argument("--subtitle-language", type=str, default="ko", help="subtitle target language need only if you plan to use DeepL file translation manually")
-    parser.add_argument("--skip-textlength", type=int, default=1, help="skip short text in the subtitles, useful for removing meaningless words")
+    parser.add_argument("--audio_language", type=str, default="ja", help="language spoken in the audio, specify None to perform language detection")
+    parser.add_argument("--subtitle_language", type=str, default="ko", help="subtitle target language need only if you plan to use DeepL file translation manually")
+    parser.add_argument("--skip_textlength", type=int, default=1, help="skip short text in the subtitles, useful for removing meaningless words")
     
     args = parser.parse_args().__dict__
     model_name: str = args.pop("model")
