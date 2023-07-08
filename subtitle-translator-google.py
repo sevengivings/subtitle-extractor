@@ -135,15 +135,20 @@ def translate_file(input_file_name, skip_textlength):
     total_length = 0 
     current_list = [] 
     split_lists = []
-    
+ 
+     
+    # Google Cloud Translate only supports maximum text segments : 128 
+    num_of_segments = 0 
     for string in subtitle_text_list:
-        if current_length + len(string) <= split_size:
+        if current_length + len(string) <= split_size and num_of_segments < 127:
             current_list.append(string)
             current_length += len(string)
+            num_of_segments += 1
         else:
             split_lists.append(current_list)
             current_list = [string]
             current_length = len(string)
+            num_of_segments = 0
         
         total_length += len(string)
 
