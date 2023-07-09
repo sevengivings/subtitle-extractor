@@ -264,6 +264,6 @@ Saved: C:\Users\login_id\20220902_131203.srt
 (venv) C:\Users\login_id> pyinstaller --onefile .\subtitle-extractor.py 
 ```
 
-위 결과로 나오는 C:\Users\login_id\dist\subtitle-extractor.exe를 C:\Users\login_id\venv\Scripts로 복사하면 됩니다. 이제 venv를 활성화만 시키면 어느 곳에서나 실행이 가능해집니다. 
+위 결과로 나오는 C:\Users\login_id\dist\subtitle-extractor.exe를 환경변수에 경로(PATH)가 잡혀 있는 디렉터리로 복사하면 됩니다. 이제 venv와 관계없이 어느 곳에서나 실행이 가능해집니다. 
 
 위 방식으로 만들면 약 2.4GB의 크기를 가지고 있어서 만들어지는데 오래 걸립니다. 
