@@ -1,7 +1,7 @@
 # subtitle-extractor
 [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/sevengivings/subtitle-extractor/blob/master/README.en.md)
 
-A Python program to automate the video AI speech recognition and translation process. 
+A Python script for AI speech recognition of video or audio file using Whisper or stable-ts and translation subtitle using DeepL app or web file translation.  
 
 [Overview] 
 
