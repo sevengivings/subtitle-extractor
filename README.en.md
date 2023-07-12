@@ -1,3 +1,14 @@
+# What's in this repository  
+
+- subtitle-extractor.py : Tools for creating video (audio) subtitles and manually translating DeepL files
+- subtitle-intermediatefile-joiner.py : Tool to recombine SRT subtitles that have been separated into time(.time) and text(.txt)
+- subtitle-translator-deepl-rapidapi : Tool to translate SRT subtitles via the DeepL(rapidapi) translation API
+- subtitle-translator-google.py : Tool to translate SRT subtitles via Google Cloud translation API
+- subtitle-translator-papago.py : Tool to translate SRT subtitles via Naver Papago translation API 
+- subtitle-util.py : Simple utility SRT translation using DeepL App file translation, unlike above scripts it use pysubparser.
+
+To remove meaningless or ghost subtitle during transcribing, I decode .SRT format myself and remove too short or repeated subtitle. You can find whole in one scripts => https://github.com/sevengivings/subtitle-xtranslator     
+
 # subtitle-extractor
 [![ko](https://img.shields.io/badge/lang-ko-red.svg)](https://github.com/sevengivings/subtitle-extractor/blob/master/README.md)
 
