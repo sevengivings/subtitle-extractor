@@ -7,7 +7,7 @@
 - subtitle-translator-papago.py : Tool to translate SRT subtitles via Naver Papago translation API 
 - subtitle-util.py : Simple utility SRT translation using DeepL App file translation, unlike above scripts it use pysubparser.
 
-To remove meaningless or ghost subtitle during transcribing, I decode .SRT format myself and remove too short or repeated subtitle. You can find whole in one scripts => https://github.com/sevengivings/subtitle-xtranslator     
+To remove meaningless or ghost subtitles during transcribing, I decode .SRT format myself and remove too short or repeated subtitle. You can find whole in one scripts => https://github.com/sevengivings/subtitle-xtranslator     
 
 # subtitle-extractor
 [![ko](https://img.shields.io/badge/lang-ko-red.svg)](https://github.com/sevengivings/subtitle-extractor/blob/master/README.md)
