@@ -1,3 +1,4 @@
+[![ko](https://img.shields.io/badge/lang-ko-red.svg)](https://github.com/sevengivings/subtitle-extractor/blob/master/README.md)
 # What's in this repository  
 
 - subtitle-extractor.py : Tools for creating video (audio) subtitles and manually translating DeepL files
@@ -10,7 +11,7 @@
 To remove meaningless or ghost subtitles during transcribing, I decode .SRT format myself and remove too short or repeated subtitle. You can find whole in one scripts => https://github.com/sevengivings/subtitle-xtranslator     
 
 # subtitle-extractor
-[![ko](https://img.shields.io/badge/lang-ko-red.svg)](https://github.com/sevengivings/subtitle-extractor/blob/master/README.md)
+
 
 A Python program to automate the video AI speech recognition and translation process. 
 
