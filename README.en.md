@@ -1,4 +1,4 @@
-[![ko](https://img.shields.io/badge/lang-ko-red.svg)](https://github.com/sevengivings/subtitle-extractor/blob/master/README.md)
+[![ko](https://img.shields.io/badge/lang-ko-red.svg)](https://github.com/sevengivings/subtitle-extractor/blob/main/README.md)
 # What's in this repository  
 
 - subtitle-extractor.py : Tools for creating video (audio) subtitles and manually translating DeepL files
