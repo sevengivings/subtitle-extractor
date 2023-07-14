@@ -1,7 +1,7 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/sevengivings/subtitle-extractor/blob/main/README.en.md)
 # What's in this repository  
 
-- subtitle-extractor.py : Tools for creating video (audio) subtitles and manually translating DeepL files
+- subtitle-extractor.py : Tools for creating foreign video (audio) subtitles. User should translate text via DeepL(or else) app/web file translation service manually. 
 - subtitle-intermediatefile-joiner.py : Tool to recombine SRT subtitles that have been separated into time(.time) and text(.txt)
 - subtitle-translator-deepl-rapidapi.py : Tool to translate SRT subtitles via the DeepL(rapidapi) translation API
 - subtitle-translator-google.py : Tool to translate SRT subtitles via Google Cloud translation API
