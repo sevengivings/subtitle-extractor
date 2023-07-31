@@ -139,7 +139,7 @@ def translate_file(input_file_name, skip_textlength):
         for lists in text_translated_list_all:
             for string in lists: 
                 fout.write(f"{i+1}\n")
-                fout.write(f"{time_sync_data_list.pop()}\n")
+                fout.write(f"{time_sync_data_list[i]}\n")
                 fout.write(f"{string.strip()}\n")
                 if i != len(time_sync_data_list)-1:
                     fout.write("\n")     
