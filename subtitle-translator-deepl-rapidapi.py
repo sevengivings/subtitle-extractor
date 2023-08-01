@@ -114,9 +114,9 @@ def translate_file(input_file_name, skip_textlength):
     split_lists = []
  
     for string in subtitle_text_list:
-        if current_length + len(string) <= split_size:
+        if current_length + len(string) < split_size:
             current_list.append(string)
-            current_length += len(string)
+            current_length += len(string) + 1  # for '\n'.join(split_list)
         else:
             split_lists.append(current_list)
             current_list = [string]
