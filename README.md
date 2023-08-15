@@ -42,12 +42,46 @@ OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여
 - DeepL : AI translation(https://www.deepl.com/translator)
 
 ## [사용법]
-```
-(venv) PS C:\Users\login_id> python .\subtitle-extractor.py --skip-textlength=1 'd:\sammple video.mp4'
-```
---skip-textlength 뒤에 있는 숫자 1은 1글자 자막을 무시하겠다는 의미입니다. 
 
-(생략할 경우 기본값 설정) --model=medium --device=cuda --audio-language=ja --subtitle-language=kr 
+Whisper나 stable-ts의 경우 많은 옵션을 줄 수 있지만, 본 스크립트에서는 가장 기본적인 것만 사용하였습니다. 만약 상세한 옵션이 필요하다면 소스 코드를 수정해야 합니다. 
+
+다음은 도움말을 알아보는 예시입니다. 
+
+```
+(venv) PS D:\python\subtitle-extractor> python .\subtitle-extractor.py -h
+D:\venv\Lib\site-packages\whisper\timing.py:57: NumbaDeprecationWarning: The 'nopython' keyword argument was not supplied to the 'numba.jit' decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.
+  @numba.jit
+usage: subtitle-extractor.py [-h] [--model MODEL] [--device DEVICE] [--audio_language AUDIO_LANGUAGE]
+                             [--subtitle_language SUBTITLE_LANGUAGE] [--skip_textlength SKIP_TEXTLENGTH]
+                             audio
+
+positional arguments:
+  audio                 audio/video file(s) to transcribe
+
+options:
+  -h, --help            show this help message and exit
+  --model MODEL         tiny, base, small, medium, large model to use (default: medium)
+  --device DEVICE       device to use for PyTorch inference (default: cuda)
+  --audio_language AUDIO_LANGUAGE
+                        language spoken in the audio, specify None to perform language detection (default: ja)
+  --subtitle_language SUBTITLE_LANGUAGE
+                        subtitle target language need only if you plan to use DeepL file translation manually
+                        (default: ko)
+  --skip_textlength SKIP_TEXTLENGTH
+                        skip short text in the subtitles, useful for removing meaningless words (default: 1)
+``` 
+
+이제 'sample video.mp4' 비디오의 자막을 추출하려면 다음과 같이 하면 됩니다. 
+
+```
+(venv) PS C:\Users\login_id> python .\subtitle-extractor.py 'd:\sammple video.mp4'
+```
+
+(생략할 경우 기본값 설정) --model medium --device cuda --audio_language ja --subtitle_language kr --skip-textlength 1
+
+--skip-textlength 뒤에 있는 숫자 1은 1글자 자막을 무시하겠다는 의미입니다.
+
+입력 비디오의 기본은 일본어로 되어 있으므로 만약 비디오의 언어가 영어라면 --audio_language en 을 추가해 주어야 됩니다. 
 
 ```
 subtitle-extractor : AI subtitle extraction and translation helper tool
