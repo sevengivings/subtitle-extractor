@@ -43,7 +43,7 @@ msgstr "[정보] 새 자막이 저장되었습니다."
 
 #: .\subtitle-extractor.py:234
 msgid "Input transcribing method. 1 for Stable-ts, 2 for Whisper: "
-msgstr "[입력] 번역에 stable-ts를 쓰려면 1, Whisper는 2를 입력 후 [Enter]를 누르세요: "
+msgstr "[입력] AI 음성 추출에 stable-ts를 쓰려면 1, Whisper는 2를 입력 후 [Enter]를 누르세요: "
 
 #: .\subtitle-extractor.py:238
 msgid "Error: Enter numbers only"
