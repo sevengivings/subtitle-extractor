@@ -137,7 +137,7 @@ D:\sample video ko.txt파일이 저장되었습니다.
 
 나중에 한국에도 유/무료 DeepL API가 공개된다면 이 기능도 자동화할 예정입니다. 그 외 사용법은 프로그램에서 출력하는 메시지를 잘 읽어보시기 바랍니다. 
 
-[![](https://github.com/sevengivings/subtitle-extractor/assets/2328500/7cfd9f3b-709d-4f1a-af9f-89eecad399c3)](https://youtu.be/l8FUgq_4XTE)
+* 실제 사용 동영상 보기 - https://www.youtube.com/watch?v=l8FUgq_4XTE
 
 
 ## [윈도우10/11 기준 준비 작업] 
