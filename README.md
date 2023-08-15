@@ -94,7 +94,7 @@ igonore n characters:1
 audio:D:\sample video.mp4 
 
 Python version: 3.11.3 (tags/v3.11.3:f3909b8, Apr  4 2023, 23:49:59) [MSC v.1934 64 bit (AMD64)]
-Torch version: 2.0.1+cu117
+Torch version: 2.0.1+cu118
 
 [입력] 번역에 stable-ts를 쓰려면 1, Whisper는 2를 입력 후 [Enter]를 누르세요:
 ```
