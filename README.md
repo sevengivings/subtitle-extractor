@@ -15,13 +15,13 @@ To remove meaningless or ghost subtitles during transcribing, I decode .SRT form
 
 A Python script for AI speech recognition of video or audio file using Whisper or stable-ts and translation subtitle using DeepL app or web file translation.  
 
-[Overview] 
+## [Overview] 
 
 MP4/MP3 file -> .SRT subtitle file -> filtering unnecessary subtitle(too short and meaningless repeated) -> time sync data(.time) & subtitle text data(.docx & .txt) -> user intervention for manual translation using DeepL file translation(translated .docx) or translated .txt using another method -> (optional)translated .docx to translated .txt -> join .time and .txt to .srt 
 
 OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여 비디오 AI 음성 인식 및 번역 과정을 자동화하기 위한 파이썬 프로그램입니다. 다만 아직까지는 번역할 때에는 성능이 가장 좋아 보이는 DeepL을 통해 파일 번역을 수동으로 하게 되는데, .SRT 자막을 그대로 번역시키면 시각정보 부분에 문제가 생길 수 있어서 텍스트만 따로 .docx로 저장해주는 기능을 가지고 있습니다. 그러한 일련의 작업 과정을 최대한 편리하게 구성해 본 프로그램입니다.   
 
-[주요 기능] 
+## [주요 기능] 
 
 * MP4에서 자막 직접 추출 기능(stable-ts와 Whisper 중 선택 가능)
 * 무료 번역기(DeepL) 이용 시 파일 번역을 위하여 .docx 형태로 자막 텍스트만 저장(클립보드 이용 시 글자 한번에 3천자 제한) 
@@ -29,19 +29,19 @@ OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여
 * 같은 말이 반복될 때 첫번째 자막만 사용 
 * 여러 줄의 자막을 한 줄로 합치는 기능
 
-[한계]
+## [한계]
 
 - 음성 인식이 완전하지 않아서 누락되는 음성이나 잘못 인식될 수 있습니다. 프로페셔널한 용도로 사용은 권장하지 않습니다. 
 - stable-ts와 whisper 명령어로 했을 때와 이 프로그램을 사용했을 때, Whisper WebUI를 썼을 때 각각 자막의 품질이나 개수가 다를 수 있습니다(최적화 파라미터가 많아서 모두 알 수 없으며, 참고로 stable-ts는 자막 추출 용도로 최적화한 프로그램이기도 하지만 Whisper 오리지널에 비해 인식 누락이 있는 편입니다. 하지만, 없는데 추출된 귀신 소리, 무의미한 반복, 뒷부분 추출 안되는 등의 문제는 적은 편입니다.)
 
 
-[관련 프로그램 링크] 
+## [관련 프로그램 링크] 
 
 - stable-ts : GitHub - jianfch/stable-ts: ASR with reliable word-level timestamps using OpenAI's Whisper(https://github.com/jianfch/stable-ts) 
 - Whisper : General-purpose speech recognition model(https://github.com/openai/whisper)
 - DeepL : AI translation(https://www.deepl.com/translator)
 
-[사용법]
+## [사용법]
 ```
 (venv) PS C:\Users\login_id> python .\subtitle-extractor.py --skip-textlength=1 'd:\sammple video.mp4'
 ```
@@ -104,21 +104,23 @@ D:\sample video ko.txt파일이 저장되었습니다.
 나중에 한국에도 유/무료 DeepL API가 공개된다면 이 기능도 자동화할 예정입니다. 그 외 사용법은 프로그램에서 출력하는 메시지를 잘 읽어보시기 바랍니다. 
 
 
-[윈도우10/11 기준 준비 작업] 
+## [윈도우10/11 기준 준비 작업] 
 
-1.파이썬 설치 
+### 1.파이썬 설치 
  
-파이썬이 현재 3.11.3이 릴리즈 중이지만, 최신 버전이 그다지 중요하지 않으므로 아래 버전으로 설치를 합니다. 윈도우11의 명령 프롬프트나 파워쉘 아무데서나 python이라고 치면 실행될 수 있도록 하는 것이 목표입니다. 
+윈도우11의 명령 프롬프트나 파워쉘 아무데서나 python이라고 치면 실행될 수 있도록 하는 것이 목표입니다. 
 
-https://www.python.org/ftp/python/3.10.11/python-3.10.11-amd64.exe
+https://www.python.org/downloads 
+https://www.python.org/ftp/python/3.11.4/python-3.11.4-amd64.exe
 
-2.CUDA 설치
+### 2.CUDA 설치
 
-브라우저로 편리하게 이용이 가능한 Whisper WebUI판에서는 cuda 11.7을 requirements.txt에 명시를 해 놓아서 같은 버전으로 설치해 봅니다. 설치 완료 후 cuda가 설치되어 있는 지 확인하려면 파워쉘(Windows PowerShell 앱)을 띄우고, nvidia-smi 라고 명령을 내려 보면 알 수 있습니다.
+최신 판을 찾아서 설치합니다. 설치 완료 후 cuda가 설치되어 있는 지 확인하려면 파워쉘(Windows PowerShell 앱)을 띄우고, nvidia-smi 라고 명령을 내려 보면 알 수 있습니다.
 
-https://developer.nvidia.com/cuda-11-7-1-download-archive?target_os=Windows&target_arch=x86_64&target_version=11&target_type=exe_local
+https://developer.nvidia.com/cuda-toolkit
+https://developer.download.nvidia.com/compute/cuda/12.2.1/local_installers/cuda_12.2.1_536.67_windows.exe
 
-3.파워쉘 실행
+### 3.파워쉘 실행
 
 윈도우키를 누르고 R키를 누르면 좌측에 실행 창이 나타납니다. 이곳에 "powershell"을 입력하고 확인을 누르면 파워쉘을 실행할 수 있습니다(이외에 다양한 방법으로 실행 가능). 
  
@@ -132,42 +134,63 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 위 >>> 에서 나오기 위해서는 exit() 을 입력합니다. 
 
-4.VENV 환경 만들어 주기 및 파이썬 패키지 설치하기 
+### 4.VENV 환경 만들어 주기 및 파이썬 패키지 설치하기 
 
 파이썬은 패키지를 필요할 때마다 설치하게 되는데, 시스템에 설치된 파이썬에 그냥 설치하다보면 가끔 뭔가가 꼬이게 되고 문제가 가끔 생기는데 아주 머리가 아픈 경우가 있습니다. 물론, 이 기능만 이용하겠다하면 상관없지만 그래도 제거가 편하도록 가상의 환경을 만들어 줍니다. 
 
 아래는 사용자 디렉터리에 그냥 설치했는데 다른 드라이브나 폴더에 해도 됩니다(주의: 경로 상에 한글이 없는 곳에서 작업해주세요. 혹시 윈도우 로그인명이 한글이라면 다른 곳에 설치가 필요합니다.)
 
 용량이 4.5GB가량 되므로 적절한 디스크 드라이브에 설치하시면 좋습니다. 
+
 ```
 PS C:\Users\login_id> python -m venv venv 
 PS C:\Users\login_id> .\venv\Scripts\Activate.ps1 
 ```
-위와 같이 해주면, 가상 환경 준비가 끝납니다. 처음에 실행할 때 보안 관련 문의가 나오는데 Always를 선택해 줍니다. venv가 성공적으로 실행되면 프롬프트가 바뀝니다. 이 상태에서 필요한 패키지들을 설치합니다. 
+
+만약 .ps1가 실행이 안되면 파워쉘을 관리자 권한으로 실행한 후, 아래 명령을 한번 실행해 줍니다. 
+
 ```
-(venv) PS C:\Users\login_id> pip install -U git+https://github.com/jianfch/stable-ts.git
-(venv) PS C:\Users\login_id> pip install git+https://github.com/openai/whisper.git
-(venv) PS C:\Users\login_id> pip install python-docx
-(venv) PS C:\Users\login_id> pip install pysub-parser
+PS C:\WINDOWS\system32> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 ```
 
-5.GPU버전의 pyTorch설치 
 
-위 과정이 끝나면 바로 쓸 수 있기는 한데, CPU버전의 pyTorch가 설치되는 것 같습니다. 이번에는 GPU버전의 토치를 설치합니다. 
+위와 같이 해주면, 가상 환경 준비가 끝납니다. 처음에 실행할 때 보안 관련 문의가 나오는데 Always를 선택해 줍니다. venv가 성공적으로 실행되면 프롬프트가 바뀝니다. 
+
+### 5.GPU버전의 pyTorch설치 
+
+GPU버전의 토치를 설치합니다. 
 ```
-(venv) PS C:\Users\login_id> pip install torch==2.0.1+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
+(venv) PS C:\Users\login_id> pip install torch==2.0.1+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
 ```
+
 잘 설치가 되었는 지 확인하기 위해 python을 입력하고 간단한 프로그램을 짭니다. (주의) "__version__" 은 글자의 좌우에 언더바가 2개씩 있습니다. 
+
 ```
 (venv) PS C:\Users\login_id> python
 Python 3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)] on win32
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import torch
 >>> print(torch.__version__)
-2.0.1+cu117
+2.0.1+cu118
 >>> exit()
 ```
-6.FFMPEG 설치 및 파이썬 인터프리터 상태에서 영상 자막 만들기 
+
+이 상태에서 향후 필요한 패키지들을 설치합니다. 아래의 git+ 명령을 쓰려면 https://git-scm.com/download/win 의 설치가  필요합니다. 
+
+```
+(venv) PS C:\Users\login_id> pip install -U git+https://github.com/jianfch/stable-ts.git
+(venv) PS C:\Users\login_id> pip install git+https://github.com/openai/whisper.git
+(venv) PS C:\Users\login_id> pip install python-docx
+```
+
+subtitle-util.py를 사용한다면 pysub-parser가 필요하고, subtitle-translator-google.py에는 google-cloud-translate==2.0.1가 필요합니다. 
+
+```
+(venv) PS C:\Users\login_id> pip install pysub-parser
+(venv) PS C:\Users\login_id> pip install google-cloud-translate==2.0.1
+```
+
+### 6.FFMPEG 설치 및 파이썬 인터프리터 상태에서 영상 자막 만들기 
 
 영상에서 음성을 추출을 하다보니 외부 프로그램이 하나 필요합니다.  
 
@@ -187,9 +210,10 @@ Type "help", "copyright", "credits" or "license" for more information.
 Saved: C:\Users\login_id\20220902_131203.srt
 >>> exit()
 ```
+
 word_timestamps=True가 기본 값인데, 말하는 중 단어가 하이라이트 되는 기능이 있습니다. 2GB의 VRAM을 가진 그래픽카드라서 small 모델로 했는데, 몇 마디(불행랑->줄행랑, 진출하되겠지는 그냥 파도 소리가 자막화 되었네요)는 잘못 인식했네요.  8GB VRAM이라면 medium으로 하면 됩니다. 
 
-7.명령어로 자막 생성해보기 
+### 7.명령어로 자막 생성해보기 
 
 이번에는 word_timestamps 옵션과 verbose 도 뺍니다(자세한 인자들은 stable-ts [Enter]를 해보시면 나열 됩니다).  
 ```
@@ -256,7 +280,7 @@ Saved: C:\Users\login_id\20220902_131203.srt
 <font color="#00ff00">그게</font> 
 ```
 
-8.subtitle-extractor.py 받아서 이용하기  
+### 8.subtitle-extractor.py 받아서 이용하기  
 
 만약 git를 설치해 두었다면 아래와 같이 받으면 됩니다. 그렇지 않다면 https://github.com/sevengivings/subtitle-extractor 에 접속해서 우측에 "<> CODE"라는 명령버튼이 보입니다. 버튼을 누르면 Download ZIP 메뉴를 통해 압축 파일로 받을 수 있고, 적당한 곳에 압축 해제한 후 이용할 수 있습니다.
 
@@ -267,7 +291,7 @@ Saved: C:\Users\login_id\20220902_131203.srt
 (주의) 만약 한글로 된 안내 메시지를 보려면 압축 파일의 locales 디렉토리도 필요합니다. 
 
 
-[단일 exe로 만들기] 
+## [단일 exe로 만들기] 
 
 지금까지는 python .\subtitle-extractor.py로 실행을 했습니다. 다소 불편하므로 exe파일로 만든 후, venv\Scripts에 복사하여 아무 드라이브나 디렉토리에서도 실행할 수 있도록 해보겠습니다. 
 
