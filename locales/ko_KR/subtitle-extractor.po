@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-02 15:25+0900\n"
+"POT-Creation-Date: 2023-08-17 10:27+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,67 +17,182 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: utf-8\n"
 
-#: .\subtitle-extractor.py:142
+#: .\subtitle-extractor.py:57
+msgid "Error: No input file: "
+msgstr "[에러] 입력 파일이 없습니다: "
+
+#: .\subtitle-extractor.py:146
 msgid "Info: The total length of subtitles is: "
 msgstr "[정보] 전체 자막 길이: "
 
-#: .\subtitle-extractor.py:145
+#: .\subtitle-extractor.py:149
 msgid "Info: The short subtitles are ignored: "
 msgstr "[정보] 짧아서 무시된 자막 종류: "
 
-#: .\subtitle-extractor.py:153
+#: .\subtitle-extractor.py:157
 msgid "Info: The repeated subtitles are ignored: "
 msgstr "[정보] 반복되어 무시된 자막 종류: "
 
-#: .\subtitle-extractor.py:179
+#: .\subtitle-extractor.py:183
 msgid ".txt file is saved"
 msgstr ".txt 파일이 저장되었습니다."
 
-#: .\subtitle-extractor.py:186
+#: .\subtitle-extractor.py:190
 msgid "Error: time and text file must have the same number of lines"
 msgstr "[에러] 자막시각정보(.time)와 자막텍스트(.txt)는 길이가 같아야 처리됩니다."
 
-#: .\subtitle-extractor.py:196
+#: .\subtitle-extractor.py:200
 msgid "Info: new srt file is saved"
 msgstr "[정보] 새 자막이 저장되었습니다."
 
-#: .\subtitle-extractor.py:234
-msgid "Input transcribing method. 1 for Stable-ts, 2 for Whisper: "
-msgstr "[입력] AI 음성 추출에 stable-ts를 쓰려면 1, Whisper는 2를 입력 후 [Enter]를 누르세요: "
-
-#: .\subtitle-extractor.py:238
-msgid "Error: Enter numbers only"
-msgstr "[에러] 숫자만 넣으세요."
-
-#: .\subtitle-extractor.py:249
-msgid "Warning: File already exists"
-msgstr "[주의] 파일이 이미 있습니다."
-
-#: .\subtitle-extractor.py:256
+#: .\subtitle-extractor.py:204
 msgid ""
 "Info: You should translate .docx manullay using DeepL file translation, use "
 msgstr "[작업] 직접 번역을 하기 위해 DeepL의 파일 번역 기능에 다음 파일을 사용하세요. "
 
-#: .\subtitle-extractor.py:258
+#: .\subtitle-extractor.py:206
 msgid "Input another translated file name or press [Enter] to continue...("
 msgstr "[입력] 번역된 파일이름을 넣거나 엔터를 누르면 "
 
-#: .\subtitle-extractor.py:258
+#: .\subtitle-extractor.py:206
 msgid ".docx will be used.): "
 msgstr ".docx가 사용됩니다: "
 
-#: .\subtitle-extractor.py:265
-msgid "Error: File not found translated "
-msgstr "[에러] 번역된 파일이 없습니다. 따옴표나 쌍따옴표는 필요없으며 전체 경로를 넣으세요."
+#: .\subtitle-extractor.py:213
+msgid "Error: File not found"
+msgstr "[에러] 번역된 파일이 없습니다. 따옴표나 쌍따옴표는 없이 전체 경로를 넣으세요."
 
-#: .\subtitle-extractor.py:274
+#: .\subtitle-extractor.py:221
 msgid "Press [Enter] to continue... or edit "
 msgstr "[작업] 계속하려면 [Enter]를 누르거나 필요시 다음 파일을 편집할 수 있습니다: "
 
-#: .\subtitle-extractor.py:285
+#: .\subtitle-extractor.py:265 .\subtitle-extractor.py:270
+msgid "DeepL API error: "
+msgstr "[오류] DeepL API 오류: "
+
+#: .\subtitle-extractor.py:286
+msgid ""
+"\n"
+"AI subtitle transcription and DeepL translation helper tool\n"
+msgstr ""
+"\n"
+"인공지능 음성추출 및 DeepL 수동 혹은 API번역 도우미\n"
+
+#: .\subtitle-extractor.py:289
+msgid "audio/video file(s) to transcribe"
+msgstr "음성추출에 사용할 파일의 전체 경로를 입력합니다."
+
+#: .\subtitle-extractor.py:290
+msgid "name of the stable-ts or Whisper framework to use"
+msgstr "음성추출에 사용할 방법을 stable-ts와 whisper중에 고릅니다."
+
+#: .\subtitle-extractor.py:291
+msgid "tiny, base, small, medium, large model to use"
+msgstr "번역 모델을 선택합니다. tiny, base, small, medium, large 등"
+
+#: .\subtitle-extractor.py:292
+msgid "device to use for PyTorch inference"
+msgstr "cuda 혹은 cpu를 선택합니다."
+
+#: .\subtitle-extractor.py:293
+msgid ""
+"language spoken in the audio, specify None to perform language detection"
+msgstr "입력 파일의 언어를 지정합니다. 생략하면 앞쪽 30초 기반으로 자동 판단합니다."
+
+#: .\subtitle-extractor.py:294
+msgid ""
+"subtitle target language need only if you plan to use DeepL file translation "
+msgstr "최종 자막의 언어를 지정합니다. 예: 한국어는 ko 영어는 en 일본어는 ja"
+""
+
+#: .\subtitle-extractor.py:295
+msgid "skip short text in the subtitles, useful for removing meaningless words"
+msgstr "길이가 아주 짧은 자막, 즉 의미없는 자막 삭제에 유용합니다."
+
+#: .\subtitle-extractor.py:297
+msgid ""
+"if True, provide the previous output of the model as a prompt for the next "
+"window; disabling may make the text inconsistent across windows, but the "
+"model becomes less prone to getting stuck in a failure loop"
+msgstr ""
+"True를 주면 이전에 사용한 모델 출력을 다음 구간 입력에 활용하며"
+"; False일 경우 구간 사이의 문장 불일치는 생기지만, "
+"번역이 루프에 빠지는 오류는 줄어들 수 있습니다."
+
+#: .\subtitle-extractor.py:302
+msgid ""
+"stable-ts only, whether to reprocess the audio track with Demucs to isolate "
+"vocals/remove noise; pip install demucs PySoundFile; Demucs official repo: "
+"https://github.com/facebookresearch/demucs"
+msgstr ""
+"stable-ts 전용이며 사람 음성과 잡음의 분리를 위해 demucs로 전처리 합니다. "
+"추가 설치 필요: pip install demucs PySoundFile "
+"https://github.com/facebookresearch/demucs"
+
+#: .\subtitle-extractor.py:306
+msgid ""
+"stable-ts only, whether to use Silero VAD to generate timestamp suppression "
+"mask; pip install silero; Official repo: https://github.com/snakers4/silero-"
+"vad"
+msgstr ""
+"stable-ts 전용, Silero VAD를 사용하여 timestamp 억제를 할 지 선택합니다. "
+"추가 설치 필요: pip install silero"
+"https://github.com/snakers4/silero-vad"
+
+#: .\subtitle-extractor.py:310
+msgid ""
+"stable-ts only, threshold for detecting speech with Silero VAD. (Default: "
+"0.2); low threshold reduces false positives for silence detection"
+msgstr ""
+"stable-ts 전용, Silero VAD를 적용 시 음성 추출 기준을 설정합니다. "
+"낮은 값은 무음 탐지 시 잘못된 탐지를 줄여줍니다."
+
+#: .\subtitle-extractor.py:313
+msgid ""
+"stable-ts only, process entire audio track into log-Mel spectrogram first "
+"instead in chunksif audio is not transcribing properly compared to whisper, "
+"at the cost of more memory usage for long audio tracks"
+msgstr ""
+"stable-ts 전용, log-Mel 스펙트럼을 사용하여 전체 오디오를 처리합니다. "
+"whisper보다 음성 추출이 좋지 않다고 판단되면 이용하세요. "
+"오디오/비디오가 긴 경우 GPU메모리가 부족할 수 있습니다."
+
+#: .\subtitle-extractor.py:341
+msgid "The input audio/video file does not exist: "
+msgstr "[오류] 입력 비디오/오디오 파일이 없습니다."
+
+#: .\subtitle-extractor.py:346
+msgid "Info: --audio_language is not specified, performing automatic language detection"
+msgstr "[정보] --audio_language를 지정하지 않았습니다. 앞30초에 음성이 없으면 언어 인식이 실패합니다."
+
+#: .\subtitle-extractor.py:351
+msgid "Input transcribing method. 1 for Stable-ts, 2 for Whisper: "
+msgstr "[입력] 음성추출 방법을 선택하세요. stable-ts는 1, Whisper는 2를 입력합니다."
+
+#: .\subtitle-extractor.py:359
+msgid "Error: input numbers only"
+msgstr "[오류] 숫자만 입력 가능합니다."
+
+#: .\subtitle-extractor.py:370
+msgid "Warning: File already exists"
+msgstr "[주의] 파일이 이미 있습니다."
+
+#: .\subtitle-extractor.py:381
+msgid "Info: DeepL API key is set"
+msgstr "[정보] DeepL API 키가 환경변수에 있습니다."
+
+#: .\subtitle-extractor.py:382
+msgid "Info: DeepL file translation is started, please wait"
+msgstr "[정보] DeepL API 파일 번역이 시작되었습니다. 완료할 때까지 기다려 주세요."
+
+#: .\subtitle-extractor.py:384
+msgid "Info: DeepL file translation is done"
+msgstr "[정보] DeepL API 파일 번역이 완료되었습니다."
+
+#: .\subtitle-extractor.py:395
 msgid "Info: final srt file is saved"
 msgstr "[정보] 최종 자막이 저장되었습니다."
 
-#: .\subtitle-extractor.py:303
+#: .\subtitle-extractor.py:412
 msgid "Done"
 msgstr "[정보] 완료하였습니다."
