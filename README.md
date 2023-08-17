@@ -50,7 +50,7 @@ OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여
 ## [2023-08-17 수정 사항] 
 
 - 우리나라에 정식 오픈한 DeepL API 번역 기능을 추가하였습니다. 파워쉘의 경우 Set-Item -Path env:DEEPL_API_KEY -Value "여러분의 DEEPL API KEY" 환경 변수를 설정하면, 자동으로 번역이 이루어집니다. 개발자용 무료 버전에서는 50만자/월까지 무료로 이용 가능합니다. 
-- --audio_language는 --language로 변경하고, 기본은 언어 자동 인식으로 변경했습니다. --language 뒤에 en, ko, ja, fr 등 키워드를 넣으면 좋습니다.
+- --audio_language는 --language로 변경하고, 기본은 언어 자동 인식으로 변경했습니다. 30초간 말이 없는 경우 인식에 실패하므로 --language 뒤에 en, ko, ja, fr 등 키워드를 넣으면 좋습니다.
 - stable-ts를 위하여 --demucs, --vad, --vad_threshold, --mel_first 옵션을 사용할 수 있습니다.
 - --condition_on_previous_text 값은 False로 기본값을 다시 복구했습니다. 
 
