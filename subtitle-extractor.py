@@ -237,6 +237,17 @@ def translate_automatically(output_file_name, subtitle_language, deepl_api_key):
         sys.exit(1)
 
     translator = deepl.Translator(deepl_api_key)
+
+    usage = translator.get_usage()
+    if usage.any_limit_reached:
+        print('DeepL API Translation limit reached.')
+        sys.exit(1)
+    if usage.character.valid:
+        print(
+            f"Character usage: {usage.character.count} of {usage.character.limit}")
+    if usage.document.valid:
+        print(f"Document usage: {usage.document.count} of {usage.document.limit}")
+
     input_path = output_file_name + ".docx"
     output_path = output_file_name + " " + subtitle_language + ".docx"
     try: 
@@ -272,15 +283,6 @@ def translate_automatically(output_file_name, subtitle_language, deepl_api_key):
         print(error)    
         print(_("DeepL API error: "), error)
         sys.exit(1)    
-
-    usage = translator.get_usage()
-    if usage.any_limit_reached:
-        print('Translation limit reached.')
-    if usage.character.valid:
-        print(
-            f"Character usage: {usage.character.count} of {usage.character.limit}")
-    if usage.document.valid:
-        print(f"Document usage: {usage.document.count} of {usage.document.limit}")
 
     docx_to_txt(output_path)
 
