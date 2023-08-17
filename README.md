@@ -96,8 +96,9 @@ options:
 (생략할 경우 기본값 설정) --framework None --model medium --device cuda --language None --subtitle_language kr --skip-textlength 1
 
 --skip-textlength 뒤에 있는 숫자 1은 1글자 자막을 무시하겠다는 의미입니다.
+--language 입력 비디오/오디오의 언어를 지정합니다. 
 
-입력 비디오의 기본은 None으로 되어 있으므로 만약 비디오의 언어가 영어라면 --language en 을 추가해 주어야 됩니다. None은 자동 인식인데 비디오/오디오 앞 30초 내에 음성이 없으면 인식이 실패합니다. 
+기본 값은 None으로 되어 있으므로 만약 비디오의 언어가 영어라면 --language en 을 추가해 주어야 됩니다. 자동 인식의 경우 비디오/오디오 앞 30초 내에 음성이 없으면 인식이 실패합니다. 
 
 DEEPL_API_KEY를 제공하지 않으면 위 명령은 다음과 같이 수동 번역을 하게 되며 아래와 같이 진행합니다. 
 
