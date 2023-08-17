@@ -1,39 +1,45 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/sevengivings/subtitle-extractor/blob/main/README.en.md)
 # What's in this repository  
 
-- subtitle-extractor.py : Tools for creating foreign video (audio) subtitles. User should translate text via DeepL(or else) app/web file translation service manually. 
+- subtitle-extractor.py : Tools for creating foreign video (audio) subtitles. User can translate text via DeepL(or else) app/web file translation service manually. DeepL API translation is also possible if you provide DEEPL_API_KEY environmental variable.   
 - subtitle-intermediatefile-joiner.py : Tool to recombine SRT subtitles that have been separated into time(.time) and text(.txt)
 - subtitle-translator-deepl-rapidapi.py : Tool to translate SRT subtitles via the DeepL(rapidapi) translation API
 - subtitle-translator-google.py : Tool to translate SRT subtitles via Google Cloud translation API
 - subtitle-translator-papago.py : Tool to translate SRT subtitles via Naver Papago translation API 
 - subtitle-util.py : Simple utility SRT translation using DeepL App file translation, unlike above scripts it use pysubparser.
 
-To remove meaningless or ghost subtitles during transcribing, I decode .SRT format myself and remove too short or repeated subtitle. You can find whole-in-one Python script(transcription using Whisper or stable-ts and automatic translation using various translation APIs) => https://github.com/sevengivings/subtitle-xtranslator     
+To remove meaningless or ghost subtitles during transcribing, I decoded a .SRT format by myself and remove too short or repeated subtitles. 
+
+You can find another Python script(transcription using Whisper or stable-ts and automatic translation using various translation APIs) => https://github.com/sevengivings/subtitle-xtranslator     
 
 # subtitle-extractor
 
-
-A Python script for AI speech recognition of video or audio file using Whisper or stable-ts and translation subtitle using DeepL app or web file translation.  
+A Python script for AI speech recognition of video or audio file using Whisper or stable-ts and translation subtitle using DeepL app or web file translation. DeepL API translation is also possible if you provide DEEPL_API_KEY environmental variable(2023-08-17 update). 
 
 ## [Overview] 
 
 MP4/MP3 file -> .SRT subtitle file -> filtering unnecessary subtitle(too short and meaningless repeated) -> time sync data(.time) & subtitle text data(.docx & .txt) -> user intervention for manual translation using DeepL file translation(translated .docx) or translated .txt using another method -> (optional)translated .docx to translated .txt -> join .time and .txt to .srt 
 
+if you provide your own DEEPL_API_KEY environmental variable, subtitle-extractor.py will translate subtitles automatically. (ex: in PowerShell, Set-Item -Path env:DEEPL_API_KEY -Value "YOUR_DEEPL_API_KEY")  
+
 OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여 비디오 AI 음성 인식 및 번역 과정을 자동화하기 위한 파이썬 프로그램입니다. 다만 아직까지는 번역할 때에는 성능이 가장 좋아 보이는 DeepL을 통해 파일 번역을 수동으로 하게 되는데, .SRT 자막을 그대로 번역시키면 시각정보 부분에 문제가 생길 수 있어서 텍스트만 따로 .docx로 저장해주는 기능을 가지고 있습니다. 그러한 일련의 작업 과정을 최대한 편리하게 구성해 본 프로그램입니다.   
+
+만약 DEEP_API_KEY 환경 변수를 제공하면 수동 번역 필요 없이 자동으로 API 번역을 실행합니다(예: 파워쉘에서는 Set-Item -Path env:DEEPL_API_KEY -Value "YOUR_DEEPL_API_KEY").  
 
 ## [주요 기능] 
 
 * MP4에서 자막 직접 추출 기능(stable-ts와 Whisper 중 선택 가능)
-* 무료 번역기(DeepL) 이용 시 파일 번역을 위하여 .docx 형태로 자막 텍스트만 저장(클립보드 이용 시 글자 한번에 3천자 제한) 
-* 불필요한 한 글자나 두 글자의 자막을 삭제하는 기능
+* 파일 번역을 위하여 .docx 형태로 자막 텍스트만 저장(시간 정보는 .time 파일로 분리)
+* DeepL 앱을 이용한 수동 번역 혹은 DeepL API를 이용한 자동 번역 지원 
+* 불필요한 한 글자나 의미 없는 두 글자의 자막을 삭제하는 기능
 * 같은 말이 반복될 때 첫번째 자막만 사용 
 * 여러 줄의 자막을 한 줄로 합치는 기능
 
 ## [한계]
 
 - 음성 인식이 완전하지 않아서 누락되는 음성이나 잘못 인식될 수 있습니다. 프로페셔널한 용도로 사용은 권장하지 않습니다. 
-- stable-ts와 whisper 명령어로 했을 때와 이 프로그램을 사용했을 때, Whisper WebUI를 썼을 때 각각 자막의 품질이나 개수가 다를 수 있습니다(최적화 파라미터가 많아서 모두 알 수 없으며, 참고로 stable-ts는 자막 추출 용도로 최적화한 프로그램이기도 하지만 Whisper 오리지널에 비해 인식 누락이 있는 편입니다. 하지만, 없는데 추출된 귀신 소리, 무의미한 반복, 뒷부분 추출 안되는 등의 문제는 적은 편입니다.)
-
+- stable-ts와 whisper 명령어로 했을 때와 이 프로그램을 사용했을 때, Whisper WebUI를 썼을 때 각각 자막의 품질이나 개수가 다를 수 있습니다(최적화 파라미터가 다양하며, 참고로 stable-ts는 자막 추출 용도로 최적화한 프로그램이기도 하지만 Whisper 오리지널에 비해 인식 누락이 있는 편입니다. 하지만, 없는데 추출된 귀신 소리, 무의미한 반복, 뒷부분 추출 안되는 등의 문제는 적은 편입니다.)
+- 유료 API를 사용할 경우 사전에 본 프로그램을 충분히 테스트한 후에 이용하시기 바랍니다. 개발자는 사용 시 발생하는 알 수 없는 오류나 잠재된 문제에 대해 어떠한 책임도 지지 않습니다. 
 
 ## [관련 프로그램 링크] 
 
@@ -48,56 +54,71 @@ Whisper나 stable-ts의 경우 많은 옵션을 줄 수 있지만, 본 스크립
 다음은 도움말을 알아보는 예시입니다. 
 
 ```
-(venv) PS D:\python\subtitle-extractor> python .\subtitle-extractor.py -h
-D:\venv\Lib\site-packages\whisper\timing.py:57: NumbaDeprecationWarning: The 'nopython' keyword argument was not supplied to the 'numba.jit' decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.
-  @numba.jit
-usage: subtitle-extractor.py [-h] [--model MODEL] [--device DEVICE] [--audio_language AUDIO_LANGUAGE]
+인공지능 음성추출 및 DeepL 수동 혹은 API번역 도우미
+
+usage: subtitle-extractor.py [-h] [--framework FRAMEWORK] [--model MODEL] [--device DEVICE] [--language LANGUAGE]
                              [--subtitle_language SUBTITLE_LANGUAGE] [--skip_textlength SKIP_TEXTLENGTH]
+                             [--condition_on_previous_text] [--demucs] [--vad] [--vad_threshold VAD_THRESHOLD]
+                             [--mel_first]
                              audio
 
 positional arguments:
-  audio                 audio/video file(s) to transcribe
+  audio                 음성추출에 사용할 파일의 전체 경로를 입력합니다.
 
 options:
   -h, --help            show this help message and exit
-  --model MODEL         tiny, base, small, medium, large model to use (default: medium)
-  --device DEVICE       device to use for PyTorch inference (default: cuda)
-  --audio_language AUDIO_LANGUAGE
-                        language spoken in the audio, specify None to perform language detection (default: ja)
+  --framework FRAMEWORK
+                        음성추출에 사용할 방법을 stable-ts와 whisper중에 고릅니다. (default: none)
+  --model MODEL         번역 모델을 선택합니다. tiny, base, small, medium, large 등 (default: medium)
+  --device DEVICE       cuda 혹은 cpu를 선택합니다. (default: cuda)
+  --language LANGUAGE   입력 파일의 언어를 지정합니다. 생략하면 앞쪽 30초 기반으로 자동 판단합니다. (default: None)
   --subtitle_language SUBTITLE_LANGUAGE
-                        subtitle target language need only if you plan to use DeepL file translation manually
-                        (default: ko)
+                        subtitle target language need only if you plan to use DeepL file translation (default: ko)
   --skip_textlength SKIP_TEXTLENGTH
-                        skip short text in the subtitles, useful for removing meaningless words (default: 1)
+                        길이가 아주 짧은 자막, 즉 의미없는 자막 삭제에 유용합니다. (default: 1)
+  --condition_on_previous_text
+                        True를 주면 이전에 사용한 모델 출력을 다음 구간 입력에 활용하며; False일 경우 구간 사이의 문장  불일치는 생기지만, 번역이 루프에 빠지는 오류는 줄어들 수 있습니다. (default: False)
+  --demucs              stable-ts 전용이며 사람 음성과 잡음의 분리를 위해 demucs로 전처리 합니다. 추가 설치 필요: pip install demucs PySoundFile
+                        https://github.com/facebookresearch/demucs (default: False)
+  --vad                 stable-ts 전용, Silero VAD를 사용하여 timestamp 억제를 할 지 선택합니다. 추가 설치 필요: pip install
+                        silerohttps://github.com/snakers4/silero-vad (default: False)
+  --vad_threshold VAD_THRESHOLD
+                        stable-ts 전용, Silero VAD를 적용 시 음성 추출 기준을 설정합니다. 낮은 값은 무음 탐지 시 잘못된 탐지를 줄여줍니다. (default: 0.2)
+  --mel_first           stable-ts 전용, log-Mel 스펙트럼을 사용하여 전체 오디오를 처리합니다. whisper보다 음성 추출이 좋지 않다고 판단되면 이용하세요. 오디오/비디오가 긴 경우 GPU메모리가 부족할 수 있습니다. (default: False)
 ``` 
 
 이제 'sample video.mp4' 비디오의 자막을 추출하려면 다음과 같이 하면 됩니다. 
 
 ```
-(venv) PS C:\Users\login_id> python .\subtitle-extractor.py 'd:\sammple video.mp4'
+(venv) PS C:\Users\login_id> python .\subtitle-extractor.py --language ja 'D:\videos\sample video.mp4'     
 ```
 
-(생략할 경우 기본값 설정) --model medium --device cuda --audio_language ja --subtitle_language kr --skip-textlength 1
+(생략할 경우 기본값 설정) --framework None --model medium --device cuda --language None --subtitle_language kr --skip-textlength 1
 
 --skip-textlength 뒤에 있는 숫자 1은 1글자 자막을 무시하겠다는 의미입니다.
 
-입력 비디오의 기본은 일본어로 되어 있으므로 만약 비디오의 언어가 영어라면 --audio_language en 을 추가해 주어야 됩니다. 
+입력 비디오의 기본은 None으로 되어 있으므로 만약 비디오의 언어가 영어라면 --language en 을 추가해 주어야 됩니다. None은 자동 인식인데 비디오/오디오 앞 30초 내에 음성이 없으면 인식이 실패합니다. 
+
+DEEPL_API_KEY를 제공하지 않으면 위 명령은 다음과 같이 수동 번역을 하게 되며 아래와 같이 진행합니다. 
 
 ```
-subtitle-extractor : AI subtitle extraction and translation helper tool
+인공지능 음성추출 및 DeepL 수동 혹은 API번역 도우미
 
+
+framework: none
 model:medium
 device:cuda
 audio language:ja
 subtitle language:ko
 igonore n characters:1
-audio:D:\sample video.mp4 
+audio:D:\videos\DDFF-027_cut_cut.mp4
 
-Python version: 3.11.3 (tags/v3.11.3:f3909b8, Apr  4 2023, 23:49:59) [MSC v.1934 64 bit (AMD64)]
+Python version: 3.11.4 (tags/v3.11.4:d2340ef, Jun  7 2023, 05:45:37) [MSC v.1934 64 bit (AMD64)]
 Torch version: 2.0.1+cu118
 
-[입력] AI 음성 추출에 stable-ts를 쓰려면 1, Whisper는 2를 입력 후 [Enter]를 누르세요:
+[입력] 음성추출 방법을 선택하세요. stable-ts는 1, Whisper는 2를 입력합니다.
 ```
+
 위 메시지가 나오는데, 1이나 2를 입력합니다. Whisper는 조금 느리지만 텍스트를 더 많이 추출합니다. 장단점이 있으므로 비교하며 이용하셔도 좋을 것 같습니다. Whisper가 오류로 추출이 안될 때에는 stable-ts가 되는 경우가 많습니다.
 
 잠시 기다리면 음성 추출이 시작되며 시각과 자막이 표시되어 진행 상황을 파악할 수 있습니다. 
@@ -135,11 +156,26 @@ D:\sample video ko.txt파일이 저장되었습니다.
 [정보] 완료하였습니다.
 ```
 
-나중에 한국에도 유/무료 DeepL API가 서비스 된다면 이 기능도 자동화할 예정입니다. -> deepl-rapidapi로 구현한 프로그램 추출 및 번역 파이썬 스크립트는  https://github.com/sevengivings/subtitle-xtranslator 참조해 주세요.  
+DEEPL_API_KEY를 제공한 경우에는 위 과정이 생략되고 아래와 같이 수행이 됩니다. 
+
+```
+Saved: D:\sample video.srt
+[정보] 전체 자막 길이:  214
+[정보] DeepL API 키가 환경변수에 있습니다.
+[정보] DeepL API 파일 번역이 시작되었습니다. 완료할 때까지 기다려 주세요.
+Character usage: 350000 of 500000
+D:\videos\sample video ko.txt 파일이 저장되었습니다.
+[정보] DeepL API 파일 번역이 완료되었습니다.
+[정보] 새 자막이 저장되었습니다. D:\videos\sample video ko.srt
+[정보] 최종 자막이 저장되었습니다.
+[정보] 완료하였습니다.
+```
+
+참고로, deepl-rapidapi로 구현한 프로그램 추출 및 번역 파이썬 스크립트는  https://github.com/sevengivings/subtitle-xtranslator 를 참조해 주세요.  
 
 그 외 사용법은 프로그램에서 출력하는 메시지를 잘 읽어보시기 바랍니다. 
 
-* 실제 사용 동영상 보기 - https://www.youtube.com/watch?v=l8FUgq_4XTE
+* 실제 사용 동영상 보기(수동 번역) - https://www.youtube.com/watch?v=l8FUgq_4XTE
 
 
 ## [윈도우10/11 기준 준비 작업] 
