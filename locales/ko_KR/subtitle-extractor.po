@@ -136,7 +136,7 @@ msgid ""
 "vad"
 msgstr ""
 "stable-ts 전용, Silero VAD를 사용하여 timestamp 억제를 할 지 선택합니다. "
-"추가 설치 필요: pip install silero"
+"추가 설치 필요: pip install silero "
 "https://github.com/snakers4/silero-vad"
 
 #: .\subtitle-extractor.py:310
