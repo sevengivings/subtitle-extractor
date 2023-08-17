@@ -1,7 +1,7 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/sevengivings/subtitle-extractor/blob/main/README.en.md)
 # What's in this repository  
 
-- subtitle-extractor.py : Tools for creating foreign video (audio) subtitles. User can translate text via DeepL(or else) app/web file translation service manually. DeepL API translation is also possible if you provide DEEPL_API_KEY environmental variable.   
+- subtitle-extractor.py : Tools for creating foreign video (audio) subtitles. User can translate text via DeepL(or else) app/web file translation service manually. DeepL API file translation is also possible if you provide DEEPL_API_KEY environmental variable.   
 - subtitle-intermediatefile-joiner.py : Tool to recombine SRT subtitles that have been separated into time(.time) and text(.txt)
 - subtitle-translator-deepl-rapidapi.py : Tool to translate SRT subtitles via the DeepL(rapidapi) translation API
 - subtitle-translator-google.py : Tool to translate SRT subtitles via Google Cloud translation API
@@ -10,7 +10,7 @@
 
 To remove meaningless or ghost subtitles during transcribing, I decoded a .SRT format by myself and remove too short or repeated subtitles. 
 
-You can find another Python script(transcription using Whisper or stable-ts and automatic translation using various translation APIs) => https://github.com/sevengivings/subtitle-xtranslator     
+(CAUTION!) DeepL API file translation is not recommended! Your monthly quota will decrease dramatically. Please use another Python script(transcription using Whisper or stable-ts and automatic translation using various translation APIs including original DeepL API) => https://github.com/sevengivings/subtitle-xtranslator     
 
 # subtitle-extractor
 
@@ -24,13 +24,15 @@ if you provide your own DEEPL_API_KEY environmental variable, subtitle-extractor
 
 OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여 비디오 AI 음성 인식 및 번역 과정을 자동화하기 위한 파이썬 프로그램입니다. 다만 아직까지는 번역할 때에는 성능이 가장 좋아 보이는 DeepL을 통해 파일 번역을 수동으로 하게 되는데, .SRT 자막을 그대로 번역시키면 시각정보 부분에 문제가 생길 수 있어서 텍스트만 따로 .docx로 저장해주는 기능을 가지고 있습니다. 그러한 일련의 작업 과정을 최대한 편리하게 구성해 본 프로그램입니다.   
 
-만약 DEEP_API_KEY 환경 변수를 제공하면 수동 번역 필요 없이 자동으로 API 번역을 실행합니다(예: 파워쉘에서는 Set-Item -Path env:DEEPL_API_KEY -Value "YOUR_DEEPL_API_KEY").  
+만약 DEEP_API_KEY 환경 변수를 제공하면 수동 번역 필요 없이 자동으로 API 파일 번역을 실행합니다(예: 파워쉘에서는 Set-Item -Path env:DEEPL_API_KEY -Value "YOUR_DEEPL_API_KEY"). 
+
+(주의!) 하지만, DeepL API 파일 단위 번역은 월 50만글자가 매우 큰 단위로 없어지므로 이 방식은 사용하지 않는 것이 좋겠습니다. 대신, https://github.com/sevengivings/subtitle-xtranslator 를 이용해 주시기 바랍니다.  
 
 ## [주요 기능] 
 
 * MP4에서 자막 직접 추출 기능(stable-ts와 Whisper 중 선택 가능)
 * 파일 번역을 위하여 .docx 형태로 자막 텍스트만 저장(시간 정보는 .time 파일로 분리)
-* DeepL 앱을 이용한 수동 번역 혹은 DeepL API를 이용한 자동 번역 지원 
+* DeepL 앱을 이용한 수동 번역 혹은 DeepL API를 이용한 자동 번역 지원 -> https://github.com/sevengivings/subtitle-xtranslator 이용 권장 
 * 불필요한 한 글자나 의미 없는 두 글자의 자막을 삭제하는 기능
 * 같은 말이 반복될 때 첫번째 자막만 사용 
 * 여러 줄의 자막을 한 줄로 합치는 기능
@@ -49,7 +51,7 @@ OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여
 
 ## [2023-08-17 수정 사항] 
 
-- 우리나라에 정식 오픈한 DeepL API 번역 기능을 추가하였습니다. 파워쉘의 경우 Set-Item -Path env:DEEPL_API_KEY -Value "여러분의 DEEPL API KEY" 환경 변수를 설정하면, 자동으로 번역이 이루어집니다. 개발자용 무료 버전에서는 50만자/월까지 무료로 이용 가능합니다. 
+- 우리나라에 정식 오픈한 DeepL API 파일 번역 기능을 추가하였습니다. 파워쉘의 경우 Set-Item -Path env:DEEPL_API_KEY -Value "여러분의 DEEPL API KEY" 환경 변수를 설정하면, 자동으로 번역이 이루어집니다. 개발자용 무료 버전에서는 50만자/월까지 무료로 이용 가능합니다. 다만 파일 번역 기능을 사용하면 수만자씩 사라지므로 https://github.com/sevengivings/subtitle-xtranslator 이용을 권장합니다.  
 - --framework를 추가하여, stable-ts 혹은 whisper를 미리 선택할 수 있습니다. 이 옵션을 사용하지 않으면 추가 입력을 받아서 처리합니다(기존과 동일한 방법으로 작동). 
 - --audio_language는 --language로 변경하고, 기본은 언어 자동 인식으로 변경했습니다. 30초간 말이 없는 경우 인식에 실패하므로 --language 뒤에 en, ko, ja, fr 등 키워드를 넣으면 좋습니다.
 - stable-ts를 위하여 --demucs, --vad, --vad_threshold, --mel_first 옵션을 사용할 수 있습니다.
