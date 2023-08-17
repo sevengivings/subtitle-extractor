@@ -373,6 +373,22 @@ Saved: C:\Users\login_id\20220902_131203.srt
 
 (주의) 만약 한글로 된 안내 메시지를 보려면 압축 파일의 locales 디렉토리도 필요합니다. 
 
+## [stable-ts의 옵션 관련] 
+
+stable-ts는 위의 오리지널 Whisper를 조금 더 수정해서 자막 제작에 좀 더 특화되었다고 하는데 깃헙에 써 있는 메모를 번역해 보면, 
+
+- regroup=True를 통해 세그먼트 나눌 때 좀 더 자연스러운 경계로 하고, 
+- suppress_silence=True를 통해 시각정보 정확도를 올리고 침묵 구간 처리를 더 잘하고, 
+- demucs=True는 원래 음악용인데 음악이 없을 때에도 잘 작동한다고 합니다
+- 세그먼트 시각정보 신뢰성을 높이려면 word_timestamp는 false로 하지 말라고 합니다. -> 자막 파일이 너무 커지므로 false로 해야합니다. 
+- Whisper보다 못하다고 느껴지면 mel_first=True 등등라고 합니다. 
+
+그외에 demucs와 vad에 대해 잠시 더 언급하자면, 
+
+- demucs 옵션을 사용하기 위해서는 pip install demucs PySoundFile, vad를 위해서는 pip install silero 가 필요합니다.
+- demucs 옵션을 켠 경우 긴 파일을 처리하기 위해서는 8GB VRAM이 부족한 것 같습니다.
+- vad와 demucs 모두 처리하는 데 몇 분 가량 추가 소요가 되는데 일단은 메모리와 시간 문제로 접어두어야 할 듯합니다.
+
 
 ## [단일 exe로 만들기] 
 
