@@ -45,7 +45,7 @@ OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여
 
 - stable-ts : GitHub - jianfch/stable-ts: ASR with reliable word-level timestamps using OpenAI's Whisper(https://github.com/jianfch/stable-ts) 
 - Whisper : General-purpose speech recognition model(https://github.com/openai/whisper)
-- DeepL : AI translation(https://www.deepl.com/translator)
+- DeepL : AI translation(https://www.deepl.com/translator), API(https://www.deepl.com/pro-api?cta=header-pro-api)
 
 ## [2023-08-17 수정 사항] 
 
