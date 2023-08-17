@@ -39,13 +39,20 @@ OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여
 
 - 음성 인식이 완전하지 않아서 누락되는 음성이나 잘못 인식될 수 있습니다. 프로페셔널한 용도로 사용은 권장하지 않습니다. 
 - stable-ts와 whisper 명령어로 했을 때와 이 프로그램을 사용했을 때, Whisper WebUI를 썼을 때 각각 자막의 품질이나 개수가 다를 수 있습니다(최적화 파라미터가 다양하며, 참고로 stable-ts는 자막 추출 용도로 최적화한 프로그램이기도 하지만 Whisper 오리지널에 비해 인식 누락이 있는 편입니다. 하지만, 없는데 추출된 귀신 소리, 무의미한 반복, 뒷부분 추출 안되는 등의 문제는 적은 편입니다.)
-- 유료 API를 사용할 경우 사전에 본 프로그램을 충분히 테스트한 후에 이용하시기 바랍니다. 개발자는 사용 시 발생하는 알 수 없는 오류나 잠재된 문제에 대해 어떠한 책임도 지지 않습니다. 
+- 유료 API를 사용할 경우 사전에 본 프로그램을 충분히 테스트한 후에 이용하시기 바랍니다. 이 스크립트의 사용 시에 발생하는 알 수 없는 오류나 잠재된 버그로 인해 생기는 각종 피해에 대해 어떠한 책임도 지지 않습니다. 
 
 ## [관련 프로그램 링크] 
 
 - stable-ts : GitHub - jianfch/stable-ts: ASR with reliable word-level timestamps using OpenAI's Whisper(https://github.com/jianfch/stable-ts) 
 - Whisper : General-purpose speech recognition model(https://github.com/openai/whisper)
 - DeepL : AI translation(https://www.deepl.com/translator)
+
+## [2023-08-17 수정 사항] 
+
+- 우리나라에 정식 오픈한 DeepL API 번역 기능을 추가하였습니다. 파워쉘의 경우 Set-Item -Path env:DEEPL_API_KEY -Value "여러분의 DEEPL API KEY" 환경 변수를 설정하면, 자동으로 번역이 이루어집니다. 개발자용 무료 버전에서는 50만자/월까지 무료로 이용 가능합니다. 
+- --audio_language는 --language로 변경하고, 기본은 언어 자동 인식으로 변경했습니다. --language 뒤에 en, ko, ja, fr 등 키워드를 넣으면 좋습니다.
+- stable-ts를 위하여 --demucs, --vad, --vad_threshold, --mel_first 옵션을 사용할 수 있습니다.
+- --condition_on_previous_text 값은 False로 기본값을 다시 복구했습니다. 
 
 ## [사용법]
 
