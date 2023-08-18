@@ -387,7 +387,8 @@ stable-ts는 위의 오리지널 Whisper를 조금 더 수정해서 자막 제�
 
 그외에 demucs와 vad에 대해 잠시 더 언급하자면, 
 
-- demucs 옵션을 사용하기 위해서는 pip install demucs PySoundFile, vad를 위해서는 pip install silero 가 필요합니다.
+- demucs 옵션을 사용하기 위해서는 pip install demucs PySoundFile, vad를 위해서는 pip install silero 가 필요합니다. 이 때 pip install wheel 이 필요할 수도 있고, 
+https://visualstudio.microsoft.com/ko/visual-cpp-build-tools/ 를 설치 해야 할 수도 있습니다. 
 - demucs 옵션을 켠 경우 긴 파일을 처리하기 위해서는 8GB VRAM이 부족한 것 같습니다.
 - vad와 demucs 모두 처리하는 데 몇 분 가량 추가 소요가 되는데 일단은 메모리와 시간 문제로 접어두어야 할 듯합니다.
 
