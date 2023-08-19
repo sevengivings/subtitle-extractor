@@ -49,13 +49,14 @@ OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여
 - Whisper : General-purpose speech recognition model(https://github.com/openai/whisper)
 - DeepL : AI translation(https://www.deepl.com/translator), API(https://www.deepl.com/pro-api?cta=header-pro-api)
 
-## [2023-08-17 수정 사항] 
+## [2023-08-17, 19 수정 사항] 
 
 - 우리나라에 정식 오픈한 DeepL API 파일 번역 기능을 추가하였습니다. 파워쉘의 경우 Set-Item -Path env:DEEPL_API_KEY -Value "여러분의 DEEPL API KEY" 환경 변수를 설정하면, 자동으로 번역이 이루어집니다. 개발자용 무료 버전에서는 50만자/월까지 무료로 이용 가능합니다. 다만 파일 번역 기능을 사용하면 수만자씩 사라지므로 https://github.com/sevengivings/subtitle-xtranslator 이용을 권장합니다.  
 - --framework를 추가하여, stable-ts 혹은 whisper를 미리 선택할 수 있습니다. 이 옵션을 사용하지 않으면 추가 입력을 받아서 처리합니다(기존과 동일한 방법으로 작동). 
 - --audio_language는 --language로 변경하고, 기본은 언어 자동 인식으로 변경했습니다. 30초간 말이 없는 경우 인식에 실패하므로 --language 뒤에 en, ko, ja, fr 등 키워드를 넣으면 좋습니다.
 - stable-ts를 위하여 --demucs, --vad, --vad_threshold, --mel_first 옵션을 사용할 수 있습니다.
 - --condition_on_previous_text 값은 False로 기본값을 다시 복구했습니다. 
+- --auto_detect_docx 를 추가하여, 작업 중에 키보드를 누르지 않아도 되도록 했습니다. 물론, DeepL 앱으로 .docx 파일 번역은 직접 해주셔야 합니다. 2분간 대기합니다.  
 
 ## [사용법]
 
