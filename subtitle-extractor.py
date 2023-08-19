@@ -21,6 +21,7 @@ import whisper
 from whisper.utils import get_writer
 import numpy as np
 import gettext
+import time 
 import locale 
 
 # stable-ts  
@@ -202,16 +203,34 @@ def join_srt_files(time_file, text_file, output_file):
     
     print(_("Info: new srt file is saved"), output_file)
 
-def translate_manually(output_file_name, subtitle_language): 
-   # Get the translated file name from console if not from DeepL file translation
-    print(_("Info: You should translate .docx manullay using DeepL file translation, use "), output_file_name + ".docx")
-    # input file name from console  
-    file_name = input(_("Input another translated file name or press [Enter] to continue...(") + output_file_name + " " + subtitle_language + _(".docx will be used.): "))
-    
-    # If input is not given, use default file name.
-    if len(file_name) < 1: 
+def translate_manually(output_file_name, subtitle_language, use_auto_detect_docx): 
+    if use_auto_detect_docx == False:
+        # Get the translated file name from console if not from DeepL file translation
+        print(_("Info: You should translate .docx manullay using DeepL file translation, use "), output_file_name + ".docx")
+        # input file name from console  
+        file_name = input(_("Input another translated file name or press [Enter] to continue...(") + output_file_name + " " + subtitle_language + _(".docx will be used.): "))
+        
+        # If input is not given, use default file name.
+        if len(file_name) < 1: 
+            file_name = output_file_name + " " + subtitle_language + ".docx"
+    else: 
         file_name = output_file_name + " " + subtitle_language + ".docx"
 
+        print(_("Info: You should translate .docx manullay using DeepL file translation, use "), output_file_name + ".docx")
+        print(_("Info: Wait for 2 minutes."))
+        # wait until the file is created for a minute
+        for i in range(120):
+            if os.path.exists(file_name):
+                # check file size 
+                os.path.getsize(file_name)
+                # If the file size is 0, the file is not created.
+                if os.path.getsize(file_name) == 0:
+                    pass 
+                else:
+                    break
+            time.sleep(1)
+            print(_("Info: Waiting for file to be created... "), (i+1))
+            
     if not os.path.exists(file_name): 
         print(_("Error: File not found"), file_name)
         sys.exit(1)
@@ -220,9 +239,10 @@ def translate_manually(output_file_name, subtitle_language):
     if not file_name.endswith(".txt"):
         # Extract .txt from .docx
         docx_to_txt(file_name)
-        # "\n>> " + file_name.rsplit(".", 1)[0] + 
-        input(_("Press [Enter] to continue... or edit ") + file_name.rsplit(".", 1)[0] + ".txt ")
-    
+        
+        if use_auto_detect_docx == False:
+            input(_("Press [Enter] to continue... or edit ") + file_name.rsplit(".", 1)[0] + ".txt ")
+
     text_file_name = file_name.rsplit(".", 1)[0]
     
     return text_file_name
@@ -307,6 +327,7 @@ if __name__ == "__main__":
     parser.add_argument("--language", type=str, default="None", help=_("language spoken in the audio, specify None to perform language detection"))
     parser.add_argument("--subtitle_language", type=str, default="ko", help=_("subtitle target language need only if you plan to use DeepL file translation"))
     parser.add_argument("--skip_textlength", type=int, default=1, help=_("skip short text in the subtitles, useful for removing meaningless words"))
+    parser.add_argument("--auto_detect_docx", action='store_true', help=_("if True, automatically detect translated .docx file and proceed to next step"))
     parser.add_argument("--condition_on_previous_text", action='store_true',
                         help=_("if True, provide the previous output of the model as a prompt for the next window; "
                              "disabling may make the text inconsistent across windows, "
@@ -335,6 +356,7 @@ if __name__ == "__main__":
     subtitle_language: str = args.pop("subtitle_language")
     input_file_name: str = args.pop("audio")
     skip_textlength: int = args.pop("skip_textlength")
+    use_auto_detect_docx: bool = args.pop("auto_detect_docx")
     use_condition_on_previous_text: bool = args.pop("condition_on_previous_text")
 
     # stable_ts only
@@ -401,7 +423,7 @@ if __name__ == "__main__":
         text_file_name = translate_automatically(output_file_name, subtitle_language, deepl_api_key)
         print(_("Info: DeepL file translation is done"))        
     except KeyError:
-        text_file_name = translate_manually(output_file_name, subtitle_language)
+        text_file_name = translate_manually(output_file_name, subtitle_language, use_auto_detect_docx)
     
     # Change the name of original .srt
     os.rename(output_file_name + ".srt", output_file_name + "_original.srt")
