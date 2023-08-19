@@ -27,11 +27,11 @@ msgstr "[정보] 전체 자막 길이: "
 
 #: .\subtitle-extractor.py:149
 msgid "Info: The short subtitles are ignored: "
-msgstr "[정보] 짧아서 무시된 자막 종류: "
+msgstr "[정보] 짧아서 무시된 자막 개수: "
 
 #: .\subtitle-extractor.py:157
 msgid "Info: The repeated subtitles are ignored: "
-msgstr "[정보] 반복되어 무시된 자막 종류: "
+msgstr "[정보] 반복되어 무시된 자막 개수: "
 
 #: .\subtitle-extractor.py:183
 msgid ".txt file is saved"
