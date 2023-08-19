@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-17 11:53+0900\n"
+"POT-Creation-Date: 2023-08-19 21:48+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,167 +17,180 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: .\subtitle-extractor.py:59
+#: .\subtitle-extractor.py:60
 msgid "Error: No input file: "
 msgstr ""
 
-#: .\subtitle-extractor.py:149
+#: .\subtitle-extractor.py:150
 msgid "Info: The total length of subtitles is: "
 msgstr ""
 
-#: .\subtitle-extractor.py:152
+#: .\subtitle-extractor.py:153
 msgid "Info: The short subtitles are ignored: "
 msgstr ""
 
-#: .\subtitle-extractor.py:160
+#: .\subtitle-extractor.py:161
 msgid "Info: The repeated subtitles are ignored: "
 msgstr ""
 
-#: .\subtitle-extractor.py:186
+#: .\subtitle-extractor.py:187
 msgid ".txt file is saved"
 msgstr ""
 
-#: .\subtitle-extractor.py:193
+#: .\subtitle-extractor.py:194
 msgid "Error: time and text file must have the same number of lines"
 msgstr ""
 
-#: .\subtitle-extractor.py:203
+#: .\subtitle-extractor.py:204
 msgid "Info: new srt file is saved"
 msgstr ""
 
-#: .\subtitle-extractor.py:207
+#: .\subtitle-extractor.py:209 .\subtitle-extractor.py:219
 msgid ""
 "Info: You should translate .docx manullay using DeepL file translation, use "
 msgstr ""
 
-#: .\subtitle-extractor.py:209
+#: .\subtitle-extractor.py:211
 msgid "Input another translated file name or press [Enter] to continue...("
 msgstr ""
 
-#: .\subtitle-extractor.py:209
+#: .\subtitle-extractor.py:211
 msgid ".docx will be used.): "
 msgstr ""
 
-#: .\subtitle-extractor.py:216
+#: .\subtitle-extractor.py:220
+msgid "Info: Wait for 2 minutes."
+msgstr ""
+
+#: .\subtitle-extractor.py:232
+msgid "Info: Waiting for file to be created... "
+msgstr ""
+
+#: .\subtitle-extractor.py:235
 msgid "Error: File not found"
 msgstr ""
 
-#: .\subtitle-extractor.py:224
+#: .\subtitle-extractor.py:244
 msgid "Press [Enter] to continue... or edit "
 msgstr ""
 
-#: .\subtitle-extractor.py:268 .\subtitle-extractor.py:273
+#: .\subtitle-extractor.py:299 .\subtitle-extractor.py:304
 msgid "DeepL API error: "
 msgstr ""
 
-#: .\subtitle-extractor.py:298
+#: .\subtitle-extractor.py:320
 msgid ""
 "\n"
 "AI subtitle transcription and DeepL translation helper tool\n"
 msgstr ""
 
-#: .\subtitle-extractor.py:301
+#: .\subtitle-extractor.py:323
 msgid "audio/video file(s) to transcribe"
 msgstr ""
 
-#: .\subtitle-extractor.py:302
+#: .\subtitle-extractor.py:324
 msgid "name of the stable-ts or Whisper framework to use"
 msgstr ""
 
-#: .\subtitle-extractor.py:303
+#: .\subtitle-extractor.py:325
 msgid "tiny, base, small, medium, large model to use"
 msgstr ""
 
-#: .\subtitle-extractor.py:304
+#: .\subtitle-extractor.py:326
 msgid "device to use for PyTorch inference"
 msgstr ""
 
-#: .\subtitle-extractor.py:305
+#: .\subtitle-extractor.py:327
 msgid ""
 "language spoken in the audio, specify None to perform language detection"
 msgstr ""
 
-#: .\subtitle-extractor.py:306
+#: .\subtitle-extractor.py:328
 msgid ""
 "subtitle target language need only if you plan to use DeepL file translation"
 msgstr ""
 
-#: .\subtitle-extractor.py:307
+#: .\subtitle-extractor.py:329
 msgid "skip short text in the subtitles, useful for removing meaningless words"
 msgstr ""
 
-#: .\subtitle-extractor.py:309
+#: .\subtitle-extractor.py:330
+msgid ""
+"if True, automatically detect translated .docx file and proceed to next step"
+msgstr ""
+
+#: .\subtitle-extractor.py:332
 msgid ""
 "if True, provide the previous output of the model as a prompt for the next "
 "window; disabling may make the text inconsistent across windows, but the "
 "model becomes less prone to getting stuck in a failure loop"
 msgstr ""
 
-#: .\subtitle-extractor.py:314
+#: .\subtitle-extractor.py:337
 msgid ""
 "stable-ts only, whether to reprocess the audio track with Demucs to isolate "
 "vocals/remove noise; pip install demucs PySoundFile; Demucs official repo: "
 "https://github.com/facebookresearch/demucs"
 msgstr ""
 
-#: .\subtitle-extractor.py:318
+#: .\subtitle-extractor.py:341
 msgid ""
 "stable-ts only, whether to use Silero VAD to generate timestamp suppression "
 "mask; pip install silero; Official repo: https://github.com/snakers4/silero-"
 "vad"
 msgstr ""
 
-#: .\subtitle-extractor.py:322
+#: .\subtitle-extractor.py:345
 msgid ""
 "stable-ts only, threshold for detecting speech with Silero VAD. (Default: "
 "0.2); low threshold reduces false positives for silence detection"
 msgstr ""
 
-#: .\subtitle-extractor.py:325
+#: .\subtitle-extractor.py:348
 msgid ""
 "stable-ts only, process entire audio track into log-Mel spectrogram first "
 "instead in chunksif audio is not transcribing properly compared to whisper, "
 "at the cost of more memory usage for long audio tracks"
 msgstr ""
 
-#: .\subtitle-extractor.py:353
+#: .\subtitle-extractor.py:377
 msgid "The input audio/video file does not exist: "
 msgstr ""
 
-#: .\subtitle-extractor.py:357
+#: .\subtitle-extractor.py:381
 msgid ""
 "Info: --audio_language is not specified, performing automatic language "
 "detection"
 msgstr ""
 
-#: .\subtitle-extractor.py:366
+#: .\subtitle-extractor.py:390
 msgid "Input transcribing method. 1 for Stable-ts, 2 for Whisper: "
 msgstr ""
 
-#: .\subtitle-extractor.py:374
+#: .\subtitle-extractor.py:398
 msgid "Error: input numbers only"
 msgstr ""
 
-#: .\subtitle-extractor.py:385
+#: .\subtitle-extractor.py:409
 msgid "Warning: File already exists"
 msgstr ""
 
-#: .\subtitle-extractor.py:397
+#: .\subtitle-extractor.py:421
 msgid "Info: DeepL API key is set"
 msgstr ""
 
-#: .\subtitle-extractor.py:398
+#: .\subtitle-extractor.py:422
 msgid "Info: DeepL file translation is started, please wait"
 msgstr ""
 
-#: .\subtitle-extractor.py:400
+#: .\subtitle-extractor.py:424
 msgid "Info: DeepL file translation is done"
 msgstr ""
 
-#: .\subtitle-extractor.py:411
+#: .\subtitle-extractor.py:435
 msgid "Info: final srt file is saved"
 msgstr ""
 
-#: .\subtitle-extractor.py:428
+#: .\subtitle-extractor.py:452
 msgid "Done"
 msgstr ""
