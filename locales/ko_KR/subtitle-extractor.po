@@ -117,6 +117,10 @@ msgstr "최종 자막의 언어를 지정합니다. 예: 한국어는 ko 영어�
 msgid "skip short text in the subtitles, useful for removing meaningless words"
 msgstr "길이가 아주 짧은 자막, 즉 의미없는 자막 삭제에 유용합니다."
 
+#: .\subtitle-extractor.py:296
+msgid "if True, automatically detect translated .docx file and proceed to next step"
+msgstr "사용자에 의해 번역된 .docx가 생성되면 Enter키 입력 없이 진행됩니다."
+
 #: .\subtitle-extractor.py:297
 msgid ""
 "if True, provide the previous output of the model as a prompt for the next "
