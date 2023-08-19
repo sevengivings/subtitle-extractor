@@ -49,13 +49,14 @@ OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여
 - Whisper : General-purpose speech recognition model(https://github.com/openai/whisper)
 - DeepL : AI translation(https://www.deepl.com/translator), API(https://www.deepl.com/pro-api?cta=header-pro-api)
 
-## [2023-08-17 수정 사항] 
+## [2023-08-17, 19 수정 사항] 
 
 - 우리나라에 정식 오픈한 DeepL API 파일 번역 기능을 추가하였습니다. 파워쉘의 경우 Set-Item -Path env:DEEPL_API_KEY -Value "여러분의 DEEPL API KEY" 환경 변수를 설정하면, 자동으로 번역이 이루어집니다. 개발자용 무료 버전에서는 50만자/월까지 무료로 이용 가능합니다. 다만 파일 번역 기능을 사용하면 수만자씩 사라지므로 https://github.com/sevengivings/subtitle-xtranslator 이용을 권장합니다.  
 - --framework를 추가하여, stable-ts 혹은 whisper를 미리 선택할 수 있습니다. 이 옵션을 사용하지 않으면 추가 입력을 받아서 처리합니다(기존과 동일한 방법으로 작동). 
 - --audio_language는 --language로 변경하고, 기본은 언어 자동 인식으로 변경했습니다. 30초간 말이 없는 경우 인식에 실패하므로 --language 뒤에 en, ko, ja, fr 등 키워드를 넣으면 좋습니다.
 - stable-ts를 위하여 --demucs, --vad, --vad_threshold, --mel_first 옵션을 사용할 수 있습니다.
 - --condition_on_previous_text 값은 False로 기본값을 다시 복구했습니다. 
+- --auto_detect_docx 를 추가하여, 작업 중에 키보드를 누르지 않아도 되도록 했습니다. 물론, DeepL 앱으로 .docx 파일 번역은 직접 해주셔야 합니다. 2분간 대기합니다.  
 
 ## [사용법]
 
@@ -83,9 +84,10 @@ options:
   --device DEVICE       cuda 혹은 cpu를 선택합니다. (default: cuda)
   --language LANGUAGE   입력 파일의 언어를 지정합니다. 생략하면 앞쪽 30초 기반으로 자동 판단합니다. (default: None)
   --subtitle_language SUBTITLE_LANGUAGE
-                        subtitle target language need only if you plan to use DeepL file translation (default: ko)
+                        최종 자막의 언어를 지정합니다. 예: 한국어는 ko 영어는 en 일본어는 ja (default: ko)
   --skip_textlength SKIP_TEXTLENGTH
                         길이가 아주 짧은 자막, 즉 의미없는 자막 삭제에 유용합니다. (default: 1)
+  --auto_detect_docx    사용자에 의해 번역된 .docx가 생성되면 Enter키 입력 없이 진행됩니다. (default: False)
   --condition_on_previous_text
                         True를 주면 이전에 사용한 모델 출력을 다음 구간 입력에 활용하며; False일 경우 구간 사이의 문장  불일치는 생기지만, 번역이 루프에 빠지는 오류는 줄어들 수 있습니다. (default: False)
   --demucs              stable-ts 전용이며 사람 음성과 잡음의 분리를 위해 demucs로 전처리 합니다. 추가 설치 필요: pip install demucs PySoundFile
@@ -96,6 +98,8 @@ options:
                         stable-ts 전용, Silero VAD를 적용 시 음성 추출 기준을 설정합니다. 낮은 값은 무음 탐지 시 잘못된 탐지를 줄여줍니다. (default: 0.2)
   --mel_first           stable-ts 전용, log-Mel 스펙트럼을 사용하여 전체 오디오를 처리합니다. whisper보다 음성 추출이 좋지 않다고 판단되면 이용하세요. 오디오/비디오가 긴 경우 GPU메모리가 부족할 수 있습니다. (default: False)
 ``` 
+
+### 수동으로 단계별로 작업해 보기 
 
 이제 'sample video.mp4' 비디오의 자막을 추출하려면 다음과 같이 하면 됩니다. 
 
@@ -110,7 +114,7 @@ options:
 
 기본 값은 None으로 되어 있으므로 만약 비디오의 언어가 영어라면 --language en 을 추가해 주어야 됩니다. 자동 인식의 경우 비디오/오디오 앞 30초 내에 음성이 없으면 인식이 실패합니다. 
 
-DEEPL_API_KEY를 제공하지 않으면 위 명령은 다음과 같이 수동 번역을 하게 되며 아래와 같이 진행합니다. 
+위 명령은 다음과 같이 수동 번역을 하게 되며 아래와 같이 진행합니다. 
 
 ```
 인공지능 음성추출 및 DeepL 수동 혹은 API번역 도우미
@@ -166,6 +170,76 @@ D:\sample video ko.txt파일이 저장되었습니다.
 [정보] 최종 자막이 저장되었습니다.
 [정보] 완료하였습니다.
 ```
+
+### 키보드 입력 없이 작업해 보기 
+
+위 방식으로는 키보드를 작업할 때마다 입력해야 하는 불편함이 있습니다. 작업에 익숙해지면 다음과 같이 옵션을 사용하여 보세요. 
+
+만약 stable-ts를 사용하고, 입력 비디오가 영어이고 자막은 한글(기본값)로 원한다면 다음과 같이 명령을 사용할 수 있습니다. 
+
+```
+(venv) PS D:\python\subtitle-extractor> python .\subtitle-extractor.py --framework stable-ts --language en --auto_detect_docx 'D:\videos\sample video.mp4'     
+```
+
+그러면 아래와 같이 메시지가 나오면서 진행이 됩니다. 
+```
+(venv) PS D:\python\subtitle-extractor> python .\subtitle-extractor.py --framework stable-ts --language en --auto_detect_docx "D:\Videos\sample video.mp4"
+
+인공지능 음성추출 및 DeepL 수동 혹은 API번역 도우미
+
+framework: stable-ts
+model:medium
+device:cuda
+audio language:en
+subtitle language:ko
+igonore n characters:1
+audio:D:\Videos\sample video.mp4
+
+Python version: 3.11.4 (tags/v3.11.4:d2340ef, Jun  7 2023, 05:45:37) [MSC v.1934 64 bit (AMD64)]
+Torch version: 2.0.1+cu118
+
+condition_on_previous_text: False, demucs: False, vad: False, vad_threshold: 0.2, mel_first: False
+[00:00.760 --> 00:07.000]  For centuries, man's imagination has been captured by the mysteries of the universe.
+[00:07.000 --> 00:12.920]  Today, he stands on the threshold of a first-hand exploration, beginning with a trip to the Moon.       
+[00:13.760 --> 00:20.000]  Ironically, one of the major difficulties in taking this first big step is returning the Apollo spacecraft safely to Earth.
+Saved: D:\Videos\sample video.srt
+[정보] 전체 자막 길이:  946
+[작업] 직접 번역을 하기 위해 DeepL의 파일 번역 기능에 다음 파일을 사용하세요.  D:\Videos\sample video.docx
+[정보] 2분간 기다립니다.
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  1
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  2
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  3
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  4
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  5
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  6
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  7
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  8
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  9
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  10
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  11
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  12
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  13
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  14
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  15
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  16
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  17
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  18
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  19
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  20
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  21
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  22
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  23
+[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  24
+D:\Videos\sample video ko.txt 파일이 저장되었습니다.
+[정보] 새 자막이 저장되었습니다. D:\Videos\sample video ko.srt
+[정보] 최종 자막이 저장되었습니다.
+[정보] 완료하였습니다.
+(venv) PS D:\python\subtitle-extractor> 
+```
+
+### DeepL API로 문서(파일) 번역 기능 사용해 보기 
+
+(주의) 개발자에게 주어지는 50만자/월은 파일 번역 기능을 사용할 때 번역된 글자에 비해 많이 삭감되므로 가급적 아래 기능은 사용하지 마시고, https://github.com/sevengivings/subtitle-xtranslator 를 이용해 주세요. 
 
 DEEPL_API_KEY를 제공한 경우에는 위 과정이 생략되고 아래와 같이 수행이 됩니다. 
 
