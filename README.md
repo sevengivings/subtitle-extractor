@@ -175,7 +175,7 @@ D:\sample video ko.txt파일이 저장되었습니다.
 
 위 방식으로는 키보드를 작업할 때마다 입력해야 하는 불편함이 있습니다. 작업에 익숙해지면 다음과 같이 옵션을 사용하여 보세요. 
 
-만약 stable-ts를 사용하고, 입력 비디오가 영어이고 자막은 한글(기본값)로 원한다면 다음과 같이 명령을 사용할 수 있습니다. 
+만약 stable-ts를 사용하고, 입력 비디오가 영어이고 자막은 한글(기본값)로 원한다면 다음과 같이 명령을 사용할 수 있습니다. 방법은 --auto_detect_docx 옵션을 추가하는 것입니다. 
 
 ```
 (venv) PS D:\python\subtitle-extractor> python .\subtitle-extractor.py --framework stable-ts --language en --auto_detect_docx 'D:\videos\sample video.mp4'     
