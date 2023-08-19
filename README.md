@@ -257,7 +257,9 @@ D:\videos\sample video ko.txt 파일이 저장되었습니다.
 [정보] 완료하였습니다.
 ```
 
-참고로, deepl-rapidapi로 구현한 프로그램 추출 및 번역 파이썬 스크립트는  https://github.com/sevengivings/subtitle-xtranslator 를 참조해 주세요. 여러 파일을 배치로 처리하는 기능과 다양한 번역기를 사용하는 기능은 subtitle-xtranslator 에서만 이용 가능합니다.   
+참고로, 자동 API 번역으로 구현한 프로그램 추출 및 번역 파이썬 스크립트는  https://github.com/sevengivings/subtitle-xtranslator 를 참조해 주세요. 
+- 여러 파일을 배치로 처리하는 기능
+- 다양한 번역기를 사용 가능   
 
 그 외 본 스크립트의 사용법은 프로그램에서 출력하는 메시지를 잘 읽어보시기 바랍니다. 
 
