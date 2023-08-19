@@ -181,7 +181,8 @@ D:\sample video ko.txt파일이 저장되었습니다.
 (venv) PS D:\python\subtitle-extractor> python .\subtitle-extractor.py --framework stable-ts --language en --auto_detect_docx 'D:\videos\sample video.mp4'     
 ```
 
-그러면 아래와 같이 메시지가 나오면서 진행이 됩니다. 
+그러면 아래와 같이 메시지가 나오면서 진행이 됩니다. "[정보] 번역된 .docx 파일이 생성될 때까지 기다리는 중...  1"이 넘어가는 2분 안에 DeepL앱을 사용하여 .docx를 문서 번역해 주시면 파일 생성을 자동으로 인식해서 처리가 됩니다. 
+
 ```
 (venv) PS D:\python\subtitle-extractor> python .\subtitle-extractor.py --framework stable-ts --language en --auto_detect_docx "D:\Videos\sample video.mp4"
 
