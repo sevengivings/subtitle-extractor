@@ -109,9 +109,9 @@ msgstr "입력 파일의 언어를 지정합니다. 생략하면 앞쪽 30초 �
 
 #: .\subtitle-extractor.py:294
 msgid ""
-"subtitle target language need only if you plan to use DeepL file translation "
-msgstr "최종 자막의 언어를 지정합니다. 예: 한국어는 ko 영어는 en 일본어는 ja"
-""
+"subtitle target language need only if you plan to use DeepL file translation"
+msgstr ""
+"최종 자막의 언어를 지정합니다. 예: 한국어는 ko 영어는 en 일본어는 ja"
 
 #: .\subtitle-extractor.py:295
 msgid "skip short text in the subtitles, useful for removing meaningless words"
