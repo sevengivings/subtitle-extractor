@@ -2,7 +2,7 @@
 # subtitle-translator-deepl-rapidapi.py 
 #
 
-# https://rapidapi.com/splintPRO/api/deepl-translator/pricing 
+# https://rapidapi.com/splintPRO/api/dpl-translator 
 # free: 300,000 characters per month, 100 calls per month, 3,000 characters per call plain text only 
 # free tier also needs credit card(Korean credit card is OK.)
 # It may takes maximum 3,000ms per call 
@@ -19,7 +19,7 @@ target_language = "KO"
 # Set-Item -Path env:DEEPL_RAPIDAPI_KEY -Value "your_api_key"
 def translate_text_apikey(target, text):
     api_key = os.environ['DEEPL_RAPIDAPI_KEY'] 
-    url = f'https://deepl-translator.p.rapidapi.com/translate'
+    url = f'https://dpl-translator.p.rapidapi.com/translate'
 
     text = text
     target_language = target
@@ -33,7 +33,7 @@ def translate_text_apikey(target, text):
     headers = {
         "content-type": "application/json",
         "X-RapidAPI-Key": api_key,
-        "X-RapidAPI-Host": "deepl-translator.p.rapidapi.com"
+        "X-RapidAPI-Host": "dpl-translator.p.rapidapi.com"
     }   
 
     response = requests.post(url, json=payload, headers=headers)
