@@ -3,7 +3,7 @@
 
 - subtitle-extractor.py : Tools for creating foreign video (audio) subtitles. User can translate text via DeepL(or else) app/web file translation service manually. DeepL API file translation is also possible if you provide DEEPL_API_KEY environmental variable.   
 - subtitle-intermediatefile-joiner.py : Tool to recombine SRT subtitles that have been separated into time(.time) and text(.txt)
-- subtitle-translator-deepl-rapidapi.py : Tool to translate SRT subtitles via the DeepL(rapidapi) translation API
+- subtitle-translator-deepl-rapidapi.py : Tool to translate SRT subtitles via the DpL(rapidapi) translation API
 - subtitle-translator-google.py : Tool to translate SRT subtitles via Google Cloud translation API
 - subtitle-translator-papago.py : Tool to translate SRT subtitles via Naver Papago translation API 
 - subtitle-util.py : Simple utility SRT translation using DeepL App file translation, unlike above scripts it use pysubparser.
