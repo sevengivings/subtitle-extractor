@@ -337,13 +337,20 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> exit()
 ```
 
-이 상태에서 향후 필요한 패키지들을 설치합니다. 아래의 git+ 명령을 쓰려면 https://git-scm.com/download/win 의 설치가  필요합니다. 
+이 상태에서 향후 필요한 패키지들을 설치합니다. 아래의 git+ 명령을 쓰려면 https://git-scm.com/download/win 의 설치가  필요합니다. 가장 최신 버전을 사용하게 되는 셈입니다. 
 
 ```
 (venv) PS C:\Users\login_id> pip install -U git+https://github.com/jianfch/stable-ts.git
 (venv) PS C:\Users\login_id> pip install git+https://github.com/openai/whisper.git
 (venv) PS C:\Users\login_id> pip install python-docx
 ```
+
+참고로, 그동안 테스트하는 동안 stable-ts는 주로 2.7.0으로 사용 중(최신은 2.9.0)인데, 아래 명령을 통해 특정 버전을 설치할 수 있을 것입니다.(https://pypi.org/project/stable-ts/2.7.0/)
+
+```
+pip install stable-ts==2.7.0
+```
+
 
 subtitle-util.py를 사용한다면 pysub-parser가 필요하고, subtitle-translator-google.py에는 google-cloud-translate==2.0.1가 필요합니다. 
 
