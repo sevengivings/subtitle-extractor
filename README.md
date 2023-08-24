@@ -345,7 +345,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 (venv) PS C:\Users\login_id> pip install python-docx
 ```
 
-참고로, 그동안 테스트하는 동안 stable-ts는 주로 2.7.0으로 사용 중(최신은 2.9.0)인데, 아래 명령을 통해 특정 버전을 설치할 수 있을 것입니다.(https://pypi.org/project/stable-ts/2.7.0/)
+참고로, 그동안 테스트할 때 stable-ts는 주로 2.7.0으로 사용 중(최신은 2.9.0)인데, 아래 명령을 통해 특정 버전을 설치할 수 있을 것입니다.(https://pypi.org/project/stable-ts/2.7.0/)
 
 ```
 pip install stable-ts==2.7.0
