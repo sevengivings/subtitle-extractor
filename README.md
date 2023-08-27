@@ -8,13 +8,13 @@
 - subtitle-translator-papago.py : Tool to translate SRT subtitles via Naver Papago translation API 
 - subtitle-util.py : Simple utility SRT translation using DeepL App file translation, unlike above scripts it use pysubparser.
 
-To remove meaningless or ghost subtitles during transcribing, I decoded a .SRT format by myself and remove too short or repeated subtitles. 
+To remove meaningless or ghost subtitles during transcribing, I decoded a .SRT format by myself and can remove too short or repeated subtitles. 
 
-(CAUTION!) DeepL API file translation is not recommended! Your monthly quota will decrease dramatically. Please use another Python script(transcription using Whisper or stable-ts and automatic translation using various translation APIs including original DeepL API) => https://github.com/sevengivings/subtitle-xtranslator     
+(CAUTION!) DeepL API file translation is not recommended! Your monthly quota will decrease dramatically. Please use another Python script(transcription using whisper, stable-ts or faster-whisper and automatic translation using various translation APIs including original DeepL API) => https://github.com/sevengivings/subtitle-xtranslator     
 
 # subtitle-extractor
 
-A Python script for AI speech recognition of video or audio file using Whisper or stable-ts and translation subtitle using DeepL app or web file translation. DeepL API translation is also possible if you provide DEEPL_API_KEY environmental variable(2023-08-17 update). 
+A Python script for AI speech recognition of video or audio using whisper, stable-ts, or faster-whisper. It can translate subtitles using the DeepL app or web file translation. DeepL API translation is also possible if you provide DEEPL_API_KEY environmental variable(2023-08-17 update). 
 
 ## [Overview] 
 
@@ -22,7 +22,7 @@ MP4/MP3 file -> .SRT subtitle file -> filtering unnecessary subtitle(too short a
 
 if you provide your own DEEPL_API_KEY environmental variable, subtitle-extractor.py will translate subtitles automatically. (ex: in PowerShell, Set-Item -Path env:DEEPL_API_KEY -Value "YOUR_DEEPL_API_KEY")  
 
-OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여 비디오 AI 음성 인식 및 번역 과정을 자동화하기 위한 파이썬 프로그램입니다. 다만 아직까지는 번역할 때에는 성능이 가장 좋아 보이는 DeepL을 통해 파일 번역을 수동으로 하게 되는데, .SRT 자막을 그대로 번역시키면 시각정보 부분에 문제가 생길 수 있어서 텍스트만 따로 .docx로 저장해주는 기능을 가지고 있습니다. 그러한 일련의 작업 과정을 최대한 편리하게 구성해 본 프로그램입니다.   
+OpenAI의 Whisper, 자막을 위해 조금 변형한 stable-ts, 좀 더 빠르고 적은 VRAM을 사용하는 faster-whisper를 사용하여 비디오 AI 음성 인식 및 번역 과정을 자동화하기 위한 파이썬 프로그램입니다. 다만 아직까지는 번역할 때에는 성능이 가장 좋아 보이는 DeepL을 통해 파일 번역을 수동으로 하게 되는데, .SRT 자막을 그대로 번역시키면 시각정보 부분에 문제가 생길 수 있어서 텍스트만 따로 .docx로 저장해주는 기능을 가지고 있습니다. 그러한 일련의 작업 과정을 최대한 편리하게 구성해 본 프로그램입니다.   
 
 만약 DEEP_API_KEY 환경 변수를 제공하면 수동 번역 필요 없이 자동으로 API 파일 번역을 실행합니다(예: 파워쉘에서는 Set-Item -Path env:DEEPL_API_KEY -Value "YOUR_DEEPL_API_KEY"). 
 
@@ -30,7 +30,7 @@ OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여
 
 ## [주요 기능] 
 
-* MP4에서 자막 직접 추출 기능(stable-ts와 Whisper 중 선택 가능)
+* MP4에서 자막 직접 추출 기능(stable-ts, whisper, faster-whisper 중 선택 가능)
 * 파일 번역을 위하여 .docx 형태로 자막 텍스트만 저장(시간 정보는 .time 파일로 분리)
 * DeepL 앱을 이용한 수동 번역 혹은 DeepL API를 이용한 자동 번역 지원 -> https://github.com/sevengivings/subtitle-xtranslator 이용 권장 
 * 불필요한 한 글자나 의미 없는 두 글자의 자막을 삭제하는 기능
@@ -47,20 +47,22 @@ OpenAI의 Whisper와 자막을 위해 조금 변형한 stable-ts를 사용하여
 
 - stable-ts : GitHub - jianfch/stable-ts: ASR with reliable word-level timestamps using OpenAI's Whisper(https://github.com/jianfch/stable-ts) 
 - Whisper : General-purpose speech recognition model(https://github.com/openai/whisper)
+- faster-whisper :  reimplementation of whisper using CTranslate2(https://github.com/guillaumekln/faster-whisper)
 - DeepL : AI translation(https://www.deepl.com/translator), API(https://www.deepl.com/pro-api?cta=header-pro-api)
 
-## [2023-08-17, 19 수정 사항] 
+## [2023-08-17, 19, 27 수정 사항] 
 
 - 우리나라에 정식 오픈한 DeepL API 파일 번역 기능을 추가하였습니다. 파워쉘의 경우 Set-Item -Path env:DEEPL_API_KEY -Value "여러분의 DEEPL API KEY" 환경 변수를 설정하면, 자동으로 번역이 이루어집니다. 개발자용 무료 버전에서는 50만자/월까지 무료로 이용 가능합니다. 다만 파일 번역 기능을 사용하면 수만자씩 사라지므로 https://github.com/sevengivings/subtitle-xtranslator 이용을 권장합니다.  
-- --framework를 추가하여, stable-ts 혹은 whisper를 미리 선택할 수 있습니다. 이 옵션을 사용하지 않으면 추가 입력을 받아서 처리합니다(기존과 동일한 방법으로 작동). 
+- --framework를 추가하여, stable-ts, whisper, faster-whisper 중에 미리 선택할 수 있습니다. 이 옵션을 사용하지 않으면 추가 입력을 받아서 처리합니다(기존과 동일한 방법으로 작동). 
 - --audio_language는 --language로 변경하고, 기본은 언어 자동 인식으로 변경했습니다. 30초간 말이 없는 경우 인식에 실패하므로 --language 뒤에 en, ko, ja, fr 등 키워드를 넣으면 좋습니다.
 - stable-ts를 위하여 --demucs, --vad, --vad_threshold, --mel_first 옵션을 사용할 수 있습니다.
 - --condition_on_previous_text 값은 False로 기본값을 다시 복구했습니다. 
-- --auto_detect_docx 를 추가하여, 작업 중에 키보드를 누르지 않아도 되도록 했습니다. 물론, DeepL 앱으로 .docx 파일 번역은 직접 해주셔야 합니다. 2분간 대기합니다.  
+- --auto_detect_docx 를 추가하여, 작업 중에 키보드를 누르지 않아도 되도록 했습니다. 물론, DeepL 앱으로 .docx 파일 번역은 직접 해주셔야 합니다. 2분간 대기합니다.
+- faster-whisper는 크기가 작은 VRAM(예: NVIDIA MX150 2GB)을 가진 노트북에서도 medium모델 가동이 가능(공유 VRAM이 있는 경우)합니다. 다만, cuDNN 및 cuBLAS가 필요합니다. Quantization로 int8을 기본 값으로 지정해 두었습니다. 비록 처리 속도가 느리지만 CPU로만 이용할 경우에 faster-whisper가 좋은 선택이 될 것으로 보입니다.
 
 ## [사용법]
 
-Whisper나 stable-ts의 경우 많은 옵션을 줄 수 있지만, 본 스크립트에서는 가장 기본적인 것만 사용하였습니다. 만약 상세한 옵션이 필요하다면 소스 코드를 수정해야 합니다. 
+whisper나 stable-ts, faster-whisper의 경우 많은 옵션을 줄 수 있지만, 본 스크립트에서는 가장 기본적인 것만 사용하였습니다. 만약 상세한 옵션이 필요하다면 소스 코드를 수정해야 합니다. 
 
 다음은 도움말을 알아보는 예시입니다. 
 
@@ -79,7 +81,7 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   --framework FRAMEWORK
-                        음성추출에 사용할 방법을 stable-ts와 whisper중에 고릅니다. (default: none)
+                        음성추출에 사용할 방법을 stable-ts, whisper, faster-whisper 중에 고릅니다. (default: none)
   --model MODEL         번역 모델을 선택합니다. tiny, base, small, medium, large 등 (default: medium)
   --device DEVICE       cuda 혹은 cpu를 선택합니다. (default: cuda)
   --language LANGUAGE   입력 파일의 언어를 지정합니다. 생략하면 앞쪽 30초 기반으로 자동 판단합니다. (default: None)
@@ -282,6 +284,8 @@ https://www.python.org/ftp/python/3.11.4/python-3.11.4-amd64.exe
 https://developer.nvidia.com/cuda-toolkit
 https://developer.download.nvidia.com/compute/cuda/12.2.1/local_installers/cuda_12.2.1_536.67_windows.exe
 
+만약 faster-whisper를 사용하려면 cuDNN 및 cuBLAS의 설치가 필요합니다. cuDNN은 NVIDIA 개발자 계정이 필요한데, cudnn-windows-x86_64-8.9.4.25_cuda12-archive.zip의 압축을 해제 후 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.2에 덮어 써주면 설치가 됩니다. cuBLAS는 아래에 venv 환경이 만들어진 후 pip install nvidia-cublas-cu12 명령을 통해 설치됩니다.
+
 ### 3.파워쉘 실행
 
 윈도우키를 누르고 R키를 누르면 좌측에 실행 창이 나타납니다. 이곳에 "powershell"을 입력하고 확인을 누르면 파워쉘을 실행할 수 있습니다(이외에 다양한 방법으로 실행 가능). 
@@ -362,12 +366,18 @@ OSError: [WinError 126] 지정된 모듈을 찾을 수 없습니다. Error loadi
 (venv) PS C:\Users\login_id> pip install python-docx
 ```
 
-참고로, 그동안 테스트할 때 stable-ts는 주로 2.6.0으로 사용 중(최신은 2.9.0)인데, 아래 명령을 통해 특정 버전을 설치할 수 있을 것입니다.(https://pypi.org/project/stable-ts/2.6.0/)  (예: small / cuda 모델의 경우 한국어 인식에서는 2.6.0이 잘되었습니다. 2.9.0에서는 한국어가 다 깨져서 나오는데 좀 더 살펴보아야겠습니다.) 
+참고로, 그동안 테스트할 때 stable-ts는 주로 2.6.2으로 사용 중(최신은 2.9.0)인데, 아래 명령을 통해 특정 버전을 설치할 수 있을 것입니다.(https://pypi.org/project/stable-ts/2.6.2/)  (예: small / cuda 모델의 경우 한국어 인식에서는 2.6.2이 잘되었습니다. 2.9.0에서는 한국어가 다 깨져서 나오는데 좀 더 살펴보아야겠습니다.) 
 
 ```
-pip install stable-ts==2.6.0
+pip install stable-ts==2.6.2
 ```
 
+만약 faster-whisper를 사용할 예정이라면, 아래 명령을 추가로 진행해 줍니다.
+
+```
+pip install nvidia-cublas-cu12
+pip install faster-whisper
+```
 
 subtitle-util.py를 사용한다면 pysub-parser가 필요하고, subtitle-translator-google.py에는 google-cloud-translate==2.0.1가 필요합니다. 
 
