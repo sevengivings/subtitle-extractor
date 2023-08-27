@@ -174,12 +174,16 @@ msgid "The input audio/video file does not exist: "
 msgstr "[오류] 입력 비디오/오디오 파일이 없습니다."
 
 #: .\subtitle-extractor.py:346
-msgid "Info: --audio_language is not specified, performing automatic language detection"
-msgstr "[정보] --audio_language를 지정하지 않았습니다. 앞30초에 음성이 없으면 언어 인식이 실패합니다."
+msgid "Info: --language is not specified, performing automatic language detection"
+msgstr "[정보] --language를 지정하지 않았습니다. 앞30초에 음성이 없으면 언어 인식이 실패합니다."
 
 #: .\subtitle-extractor.py:351
-msgid "Input transcribing method. 1 for Stable-ts, 2 for Whisper: "
-msgstr "[입력] 음성추출 방법을 선택하세요. stable-ts는 1, Whisper는 2를 입력합니다."
+msgid "Input transcribing method. 1 for stable-ts, 2 for whisper, 3 for faster-whisper: "
+msgstr "[입력] 음성추출 방법을 선택하세요. stable-ts는 1, Whisper는 2, faster-whisper는 3을 입력합니다."
+
+#: .\subtitle-extractor.py:391
+msgid "Error: stable-ts = 1, whisper = 2, faster-whisper = 3 only"
+msgstr "[오류] 1부터 3까지의 숫자만 입력 가능합니다."
 
 #: .\subtitle-extractor.py:359
 msgid "Error: input numbers only"

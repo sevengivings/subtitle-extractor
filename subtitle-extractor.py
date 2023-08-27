@@ -44,10 +44,93 @@ def extract_audio_whisper(model_name, device, use_condition_on_previous_text, au
     # Check if the file exists.
     if not os.path.exists(input_file_name):
         raise FileNotFoundError(f"The file {input_file_name} does not exist.")
+    
     print(f'condition_on_previous_text: {use_condition_on_previous_text}')
     model = whisper.load_model(model_name).to(device)
     temperature = tuple(np.arange(0, 1.0 + 1e-6, 0.2))  # copied from Whisper original code 
     result = model.transcribe(input_file_name, temperature=temperature, verbose=True, word_timestamps=False, condition_on_previous_text=use_condition_on_previous_text, language=audio_language)
+    output_dir = os.path.dirname(input_file_name)
+    writer = get_writer("srt", output_dir)
+    writer(result, input_file_name) 
+
+# code from https://github.com/Softcatala/whisper-ctranslate2/src/whisper_ctranslate2/writers.py
+def format_timestamp(
+    seconds: float, always_include_hours: bool = True, decimal_marker: str = "."
+):
+    assert seconds >= 0, "non-negative timestamp expected"
+    milliseconds = round(seconds * 1000.0)
+
+    hours = milliseconds // 3_600_000
+    milliseconds -= hours * 3_600_000
+
+    minutes = milliseconds // 60_000
+    milliseconds -= minutes * 60_000
+
+    seconds = milliseconds // 1_000
+    milliseconds -= seconds * 1_000
+
+    hours_marker = f"{hours:02d}:" if always_include_hours or hours > 0 else ""
+    return (
+        f"{hours_marker}{minutes:02d}:{seconds:02d}{decimal_marker}{milliseconds:03d}"
+    )
+
+# code from https://github.com/Softcatala/whisper-ctranslate2/src/whisper_ctranslate2/transcribe.py
+def process_faster_whisper(segments, info, language_name): 
+    list_segments = []
+    last_pos = 0
+    accumated_inc = 0
+    all_text = ""
+
+    for segment in segments:
+        start, end, text = segment.start, segment.end, segment.text
+        all_text += segment.text
+
+        text = segment.text
+        line = f"[{format_timestamp(seconds=start)} --> {format_timestamp(seconds=end)}] {text}"
+        print(line)
+
+        segment_dict = segment._asdict()
+        if segment.words:
+            segment_dict["words"] = [word._asdict() for word in segment.words]
+
+        list_segments.append(segment_dict)
+        duration = segment.end - last_pos
+        increment = (
+            duration
+            if accumated_inc + duration < info.duration
+            else info.duration - accumated_inc
+        )
+        accumated_inc += increment
+        last_pos = segment.end
+
+    return dict(
+        text=all_text,
+        segments=list_segments,
+        language=language_name,
+    )
+
+# faster-whisper https://github.com/guillaumekln/faster-whisper 
+# code from https://github.com/Softcatala/whisper-ctranslate2/blob/main/src/whisper_ctranslate2/transcribe.py
+def extract_audio_faster_whisper(model, condition_on_previous_text, audio_language, input_file_name):
+    # Check if the file exists.
+    if not os.path.exists(input_file_name):
+        raise FileNotFoundError(f"The file {input_file_name} does not exist.")
+
+    print(f'condition_on_previous_text: {condition_on_previous_text}')
+        
+    try:
+        from faster_whisper import WhisperModel
+    except ModuleNotFoundError:
+        print(
+            "Please install faster-whisper "
+            '"pip install faster-whisper"'
+        )
+        sys.exit(1)
+
+    model = WhisperModel(model_name, device=device, compute_type="int8")
+
+    segments, info = model.transcribe(input_file_name, word_timestamps=False, condition_on_previous_text=condition_on_previous_text, language=audio_language)
+    result = process_faster_whisper(segments, info, audio_language)
     output_dir = os.path.dirname(input_file_name)
     writer = get_writer("srt", output_dir)
     writer(result, input_file_name) 
@@ -321,7 +404,7 @@ if __name__ == "__main__":
 
     parser= argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("audio", type=str, help=_("audio/video file(s) to transcribe"))
-    parser.add_argument("--framework", default="none", help=_("name of the stable-ts or Whisper framework to use"))
+    parser.add_argument("--framework", default="none", help=_("name of the stable-ts, whisper or faster-whisper framework to use"))
     parser.add_argument("--model", default="medium", help=_("tiny, base, small, medium, large model to use"))
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu", help=_("device to use for PyTorch inference"))
     parser.add_argument("--language", type=str, default="None", help=_("language spoken in the audio, specify None to perform language detection"))
@@ -366,7 +449,7 @@ if __name__ == "__main__":
     use_mel_first: bool = args.pop("mel_first")    
 
     print("\nframework: " + framework)
-    print("model:" + model_name + "\ndevice:" + device  + "\naudio language:" + audio_language + "\nsubtitle language:" + subtitle_language  + "\nigonore n characters:" + str(skip_textlength) + "\naudio:" + input_file_name)
+    print("model:" + model_name + "\ndevice:" + device  + "\nlanguage:" + audio_language + "\nsubtitle language:" + subtitle_language  + "\nigonore n characters:" + str(skip_textlength) + "\naudio:" + input_file_name)
     print("\nPython version: " + sys.version)
     print("Torch version: " + torch.__version__ + "\n")
 
@@ -378,7 +461,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     if audio_language == "None":
-        print(_("Info: --audio_language is not specified, performing automatic language detection"))
+        print(_("Info: --language is not specified, performing automatic language detection"))
 
     # create a new file with the same name as the input file, consider file name contains multiple '.' 
     output_file_name = input_file_name.rsplit(".", 1)[0]
@@ -387,13 +470,18 @@ if __name__ == "__main__":
     if framework == "none":
         # to determine transcribing method, get user input 
         # print ("Input the number of the transcribing method you want to use: 1 for Stable-ts, 2 for Whisper") 
-        number_selected = input(_("Input transcribing method. 1 for Stable-ts, 2 for Whisper: "))
+        number_selected = input(_("Input transcribing method. 1 for stable-ts, 2 for whisper, 3 for faster-whisper: "))
         try: 
             number_selected = int(number_selected)
             if number_selected == 1:
                 framework = "stable-ts"
             elif number_selected == 2:
                 framework = "whisper"
+            elif number_selected == 3:
+                framework = "faster-whisper"
+            else: 
+                print(_("Error: stable-ts = 1, whisper = 2, faster-whisper = 3 only"))
+                sys.exit(1)               
         except ValueError:
             print(_("Error: input numbers only"))
             sys.exit(1)
@@ -405,6 +493,8 @@ if __name__ == "__main__":
             extract_audio_stable_whisper(model_name, device, use_condition_on_previous_text, use_demucs, use_vad, vad_threshold, use_mel_first, audio_language, input_file_name, output_file_name)
         elif framework == "whisper":
             extract_audio_whisper(model_name, device, use_condition_on_previous_text, audio_language, input_file_name)
+        elif framework == "faster-whisper": 
+            extract_audio_faster_whisper(model_name, use_condition_on_previous_text, audio_language, input_file_name)
     else: 
         print(_("Warning: File already exists"))
 

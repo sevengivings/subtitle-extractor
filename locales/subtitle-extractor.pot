@@ -159,12 +159,16 @@ msgstr ""
 
 #: .\subtitle-extractor.py:381
 msgid ""
-"Info: --audio_language is not specified, performing automatic language "
+"Info: --language is not specified, performing automatic language "
 "detection"
 msgstr ""
 
 #: .\subtitle-extractor.py:390
-msgid "Input transcribing method. 1 for Stable-ts, 2 for Whisper: "
+msgid "Input transcribing method. 1 for stable-ts, 2 for whisper, 3 for faster-whisper: "
+msgstr ""
+
+#: .\subtitle-extractor.py:391
+msgid "Error: stable-ts = 1, whisper = 2, faster-whisper = 3 only"
 msgstr ""
 
 #: .\subtitle-extractor.py:398
