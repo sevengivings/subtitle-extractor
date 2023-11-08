@@ -383,7 +383,7 @@ subtitle-util.py를 사용한다면 pysub-parser가 필요하고, subtitle-trans
 
 ```
 (venv) PS C:\Users\login_id> pip install pysub-parser
-(venv) PS C:\Users\login_id> pip install google-cloud-translate==2.0.1
+(venv) PS C:\Users\login_id> pip install google-cloud-translate
 ```
 
 ### 6.FFMPEG 설치 및 파이썬 인터프리터 상태에서 영상 자막 만들기 
