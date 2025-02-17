@@ -1,4 +1,7 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/sevengivings/subtitle-extractor/blob/main/README.en.md)
+
+# DEPRICATED!  
+
 # What's in this repository  
 
 - subtitle-extractor.py : Tools for creating foreign video (audio) subtitles. User can translate text via DeepL(or else) app/web file translation service manually. DeepL API file translation is also possible if you provide DEEPL_API_KEY environmental variable.   
